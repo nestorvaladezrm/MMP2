@@ -160,7 +160,7 @@ $$
 =
 \left\{
 (x,y,z)\in\mathbb{R}^{3}:
-x\geq0,\ y\geq0,\ z\geq0
+x\geq 0,\ y\geq 0,\ z\geq 0
 \right\}.
 $$
 
