@@ -1,0 +1,598 @@
+
+\documentclass[letterpaper,11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2cm, right=2cm, top=2cm, bottom=2cm]{geometry}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2953}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{LastRevised=Saturday, November 21, 2026 07:06:02}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{ComputeDefs=
+%$\alpha =0.5449$
+%$\beta =2.761\times 10^{-6}$
+%$\delta =2.6486\times 10^{-6}$
+%$\gamma =0.8464$
+%}
+
+
+\input{tcilatex}
+\renewcommand{\baselinestretch}{1.15}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5\baselineskip}
+\pretolerance=2000 \tolerance=3000
+\renewcommand{\abstractname}{Resumen}
+
+\begin{document}
+
+\title{Pr\'{a}ctica 2: Caos en Sistemas Biol\'{o}gicos}
+\author{Valadez Madera Nestor Roman $M26210087$ \\
+%EndAName
+Departamento de Ingenier\'{\i}a El\'{e}ctrica y Electr\'{o}nica\\
+Tecnol\'{o}gico Nacional de M\'{e}xico / Instituto Tecnol\'{o}gico de Tijuana%
+}
+\maketitle
+
+\noindent \textbf{Palabras clave: }Modelo Matematico; Ecuaciones
+diferenciales; Simulaciones numericas; Lotka-Volterra; MATLAB.
+
+\bigskip
+
+\noindent Correo: \textbf{m26210087@tectijuana.edu.mx}
+
+\noindent \noindent Carrera: \textbf{Maestr\'{\i}a en\ Ciencias de la
+Ingenier\'{\i}a.}
+
+\noindent Asignatura: \textbf{Modelado Matem\'{a}tico}
+
+\noindent Profesor: \href{https://biomath.xyz/}{\textbf{Dr. Paul Antonio
+Valle Trujillo}} (paul.vt@tijuana.tecnm.mx)
+
+\bigskip
+
+\section{Modelo matematico}
+
+\qquad El modelo matem\'{a}atico que describe la din\'{a}mica entre tres
+poblaciones celulares est\'{a} descrito por las siguientes tres EDOs no
+lineales de primer orden:
+
+\begin{eqnarray*}
+\dot{x} &=&r_{1}x(1-b_{1}x)-a_{12}xy-a_{13}xz, \\
+\dot{y} &=&r_{2}y(1-b_{2}y)-a_{21}xy, \\
+\dot{z} &=&(r_{3}-a_{31})xz-d_{3}z+\rho ,
+\end{eqnarray*}
+
+donde todos los par\'{a}metros son positivos, las condiciones iniciales no
+negativas y el par\'{a}metro de control $\rho >0$.
+
+\bigskip
+
+\section{Positividad del sistema}
+
+Con base en el trabajo de De Leenherr y Aeyels, se realiza el siguiente c%
+\'{a}lculo para establecer la positividad del sistema:
+
+\begin{eqnarray*}
+\left. \dot{x}\right\vert _{x=0}
+&=&r_{1}(0)(1-b_{1}(0))-a_{12}(0)y-a_{13}(0)z=0, \\
+\left. \dot{y}\right\vert _{y=0} &=&r_{2}(0)(1-b_{2}(0))-a_{21}x(0)=0, \\
+\left. \dot{z}\right\vert _{z=0} &=&(r_{3}-a_{31})x(0)-d_{3}(0)+\rho =\rho
+\geq 0,
+\end{eqnarray*}%
+entonces, siguiendo el criterio general para la positividad en las
+soluciones de un sistema din\'{a}mico no lineal, se establece el siguiente
+resultado:
+
+\QTP{Body Math}
+\textbf{Resultado. Positividad e invariancia en el octante no negativo. }%
+\textit{Sea }$\varphi =(x(t),y(t),z(t))^{T}$\textit{\ una soluci\'{o}n del
+sistema con condiciones iniciales no negativas, es decir, }$\varphi
+(t_{0})\in 
+%TCIMACRO{\U{211d} }%
+%BeginExpansion
+\mathbb{R}
+%EndExpansion
+_{+,0}^{3}$\textit{, por lo tanto, el octante no negativo definido por%
+\newline
+}%
+\begin{equation*}
+%TCIMACRO{\U{211d} }%
+%BeginExpansion
+\mathbb{R}
+%EndExpansion
+_{+,0}^{3}=\{\varphi \in 
+%TCIMACRO{\U{211d} }%
+%BeginExpansion
+\mathbb{R}
+%EndExpansion
+_{+,0}^{3}:x,y,z\geq 0\},
+\end{equation*}
+
+\QTP{Body Math}
+\textit{es positivamente invariante y }$\varphi (t,x,y,z)\in 
+%TCIMACRO{\U{211d} }%
+%BeginExpansion
+\mathbb{R}
+%EndExpansion
+_{+,0}^{3}$\textit{\ para }$t\geq 0.$
+
+\QTP{Body Math}
+$\bigskip $
+
+\section{Puntos de equilibrio libre de c\'{e}lulas patol\'{o}gicas}
+
+Con el objetivo de determinar condiciones para la eliminaci\'{o}n de c\'{e}%
+lulas patol\'{o}gicas, se calculan los equilibrios donde $x=0$, es decir, se
+debe resolver el siguiente sistema de ecuaciones:
+
+\begin{eqnarray*}
+r_{1}x(1-b_{1}x)-a_{12}xy-a_{13}xz &=&0, \\
+r_{2}y(1-b_{2}y)-a_{21}xy &=&0, \\
+(r_{3}-a_{31})xa-d_{3}z+\rho &=&0,
+\end{eqnarray*}%
+entonces, si $x=0$, se reescribe de la siguiente forma:
+
+\begin{eqnarray*}
+x &=&0 \\
+r_{2}y(1-b_{2}y) &=&0 \\
+-d_{3}z+\rho &=&0
+\end{eqnarray*}%
+por lo tanto, se resuelve despejando cada variable de estado:
+
+\begin{eqnarray*}
+x^{\ast } &=&0, \\
+y(1-b_{2}y) &=&0, \\
+z^{\ast } &=&\frac{\rho }{d_{3}},
+\end{eqnarray*}%
+resolviendo para $y$ se obtiene lo siguiente:
+
+\begin{eqnarray*}
+y_{0}^{\ast } &=&0, \\
+y_{1}^{\ast } &=&\frac{1}{b_{2}},
+\end{eqnarray*}%
+y los equilibrios donde $x=0$, est\'{a}an dados por:
+
+\begin{eqnarray*}
+(x_{0}^{\ast },y_{0}^{\ast },z_{0}^{\ast }) &=&(0,0,\frac{\rho }{d_{3}}), \\
+(x_{1}^{\ast },y_{1}^{\ast },z_{1}^{\ast }) &=&(0,\frac{1}{b_{2}},\frac{\rho 
+}{d_{3}}),
+\end{eqnarray*}
+
+\section{Estabilidad asint\'{o}tica local}
+
+Ahora, con el proposito de establecer condiciones para asegurar la
+estabilidad asint\'{o}tica local del punto de equilibrio libre de c\'{e}%
+lulas patol\'{o}gicas $(x_{1}^{\ast },y_{1}^{\ast },z_{1}^{\ast })$, se
+calcula la matriz Jacobiana del sistema como se muestra a continuaci\'{o}n:
+
+\begin{equation*}
+J=\left[ 
+\begin{array}{ccc}
+\frac{\partial \dot{x}}{\partial x} & \frac{\partial \dot{x}}{\partial y} & 
+\frac{\partial \dot{x}}{\partial z} \\ 
+\frac{\partial \dot{y}}{\partial x} & \frac{\partial \dot{y}}{\partial y} & 
+\frac{\partial \dot{y}}{\partial z} \\ 
+\frac{\partial \dot{z}}{\partial x} & \frac{\partial \dot{z}}{\partial y} & 
+\frac{\partial \dot{z}}{\partial z}%
+\end{array}%
+\right] =\left[ 
+\begin{array}{ccc}
+r_{1}-a_{12}y-a_{13}z-2b_{1}r_{1}x & -a_{12}x & -a_{13}x \\ 
+-a_{21}y & r_{2}-a_{21}x-2b_{2}r_{2}y & 0 \\ 
+r_{3}z-a_{31}z & 0 & r_{3}x-a_{31}x-d_{3}%
+\end{array}%
+\allowbreak \right]
+\end{equation*}%
+Para evaluar la estabilidad local del equilibrio de inter\'{e}s, se eval\'{u}%
+a $J$ en $(x_{1}^{\ast },y_{1}^{\ast },z_{1}^{\ast })$ y se calculan los
+valores propios de la matriz resultante, es decir,
+
+\begin{eqnarray*}
+\left. J\right\vert _{(x_{1}^{\ast },y_{1}^{\ast },z_{1}^{\ast })} &=&\left[ 
+\begin{array}{ccc}
+r_{1}-a_{12}y-a_{13}z-2b_{1}r_{1}x & -a_{12}x & -a_{13}x \\ 
+-a_{21}y & r_{2}-a_{21}x-2b_{2}r_{2}y & 0 \\ 
+r_{3}z-a_{31}z & 0 & r_{3}x-a_{31}x-d_{3}%
+\end{array}%
+\right] _{x=0,y=1/b_{2},z=\rho /d_{3}} \\
+\left. J\right\vert _{(x_{1}^{\ast },y_{1}^{\ast },z_{1}^{\ast })} &=&\left[ 
+\begin{array}{ccc}
+r_{1}-\frac{a_{12}}{b_{2}}-\frac{a_{13}\rho }{d_{3}} & 0 & 0 \\ 
+-\frac{a_{21}}{b_{2}} & -r_{2} & 0 \\ 
+\frac{\rho }{d_{3}}(r_{3}-a_{31}) & 0 & -d_{3}%
+\end{array}%
+\right]
+\end{eqnarray*}%
+Para determinar los valores propios de la matriz, se c\'{a}lculan las ra%
+\'{\i}ces del Jacobiano:
+
+\begin{eqnarray*}
+\det (A-\lambda I) &=&0, \\
+\det (%
+\begin{array}{ccc}
+r_{1}-\frac{a_{12}}{b_{2}}-\frac{a_{13}\rho }{d_{3}} & 0 & 0 \\ 
+-\frac{a_{21}}{b_{2}} & -r_{2} & 0 \\ 
+\frac{\rho }{d_{3}}(r_{3}-a_{31}) & 0 & -d_{3}%
+\end{array}%
+-%
+\begin{array}{ccc}
+\lambda & 0 & 0 \\ 
+0 & \lambda & 0 \\ 
+0 & 0 & \lambda%
+\end{array}%
+) &=&0, \\
+-\frac{1}{b_{2}d_{3}}\left( \lambda +d_{3}\right) \left( \lambda
++r_{2}\right) \left( d_{3}a_{12}+\lambda b_{2}d_{3}+\rho
+b_{2}a_{13}-b_{2}d_{3}r_{1}\right) \allowbreak &=&0 \\
+\left( \lambda +d_{3}\right) \left( \lambda +r_{2}\right) \left(
+d_{3}a_{12}+\lambda b_{2}d_{3}+\rho b_{2}a_{13}-b_{2}d_{3}r_{1}\right) &=&0
+\end{eqnarray*}%
+Cuando la matriz $A$ es triangular (inferior o superior), entonces, los
+valores propios son los elementos de la diagonal:
+
+\begin{eqnarray*}
+\lambda _{1} &=&r_{1}-\frac{a_{12}}{b_{2}}-\frac{a_{13}\rho }{d_{3}}, \\
+\lambda _{2} &=&-r_{2}, \\
+\lambda _{3} &=&-d_{3},
+\end{eqnarray*}%
+Se observa que $\lambda _{2,3}<0$ y se determina la siguiente condici\'{o}n
+sobre el par\'{a}metro de control $\rho $ para asegurar que $\lambda _{1}<0$:
+
+\begin{eqnarray*}
+r_{1}-\frac{a_{12}}{b_{2}}-\frac{a_{13}\rho }{d_{3}} &<&0, \\
+\rho &>&\frac{d_{3}}{a_{13}}(r_{1}-\frac{a_{12}}{b_{2}}),
+\end{eqnarray*}%
+por lo tanto, se establece el siguiente resultado con respecto a la
+estabilidad asint\'{o}tica local de $(x_{1}^{\ast },y_{1}^{\ast
+},z_{1}^{\ast })$
+
+\bigskip
+
+\QTP{Body Math}
+\textbf{Resultado: Condici\'{o}n de eliminaci\'{o}n local de c\'{e}lulas
+patol\'{o}gicas.} Si la condici\'{o}n
+
+\QTP{Body Math}
+\begin{equation*}
+\rho >\frac{d_{3}}{a_{13}}(r_{1}-\frac{a_{12}}{b_{2}}),
+\end{equation*}%
+se cumple, entonces, el equilibrio libre de c\'{e}lulas patol\'{o}gicas $%
+(x_{1}^{\ast },y_{1}^{\ast },z_{1}^{\ast })$ es local asint\'{o}ticamente
+estable y se puede asegurar la eliminaci\'{o}n de una poblaci\'{o}n inicial
+de c\'{e}lulas patol\'{o}gicas cercana a dicho equilibrio.
+
+\bigskip
+
+Del resultado anterior se ontiene el siguiente resultado complementario:
+
+\bigskip
+
+\QTP{Body Math}
+\textbf{Resultado: Persistencia. }\textit{Si la siguiente condici\'{o}n se
+cumple:}
+
+\begin{equation*}
+\rho <\frac{d_{3}}{a_{13}}(r_{1}-\frac{a_{12}}{b_{2}}),
+\end{equation*}
+
+\QTP{Body Math}
+entonces, se observar\'{a} una persistencia de la poblaci\'{o}n de c\'{e}%
+lulas patol\'{o}gicas en las soluciones y trayectorias del sistema.
+
+\QTP{Body Math}
+$\bigskip $
+
+Tarea: Realizar el an\'{a}lisis de estabilidad asint\'{o}tica local de $%
+(x_{0}^{\ast },y_{0}^{\ast },z_{0}^{\ast })=(0,0,\frac{\rho }{d_{3}})$
+
+\bigskip
+
+\begin{eqnarray*}
+\left. J\right\vert _{(x_{1}^{\ast },y_{1}^{\ast },z_{1}^{\ast })} &=&\left[ 
+\begin{array}{ccc}
+r_{1}-a_{12}y-a_{13}z-2b_{1}r_{1}x & -a_{12}x & -a_{13}x \\ 
+-a_{21}y & r_{2}-a_{21}x-2b_{2}r_{2}y & 0 \\ 
+r_{3}z-a_{31}z & 0 & r_{3}x-a_{31}x-d_{3}%
+\end{array}%
+\right] _{x=0,y=0,z=\rho /d_{3}} \\
+\left. J\right\vert _{(x_{1}^{\ast },y_{1}^{\ast },z_{1}^{\ast })} &=&\left[ 
+\begin{array}{ccc}
+r_{1}-\frac{a_{13}\rho }{d_{3}} & 0 & 0 \\ 
+0 & r_{2} & 0 \\ 
+\frac{r_{3}\rho }{d_{3}}-\frac{a_{31}\rho }{d_{3}} & 0 & -d_{3}%
+\end{array}%
+\right]
+\end{eqnarray*}
+
+Para determinar los valores propios de la matriz, se c\'{a}lculan las ra%
+\'{\i}ces del Jacobiano:
+
+\begin{eqnarray*}
+\det (A-\lambda I) &=&0, \\
+\det (%
+\begin{array}{ccc}
+r_{1}-\frac{a_{13}\rho }{d_{3}} & 0 & 0 \\ 
+0 & r_{2} & 0 \\ 
+\frac{r_{3}\rho }{d_{3}}-\frac{a_{31}\rho }{d_{3}} & 0 & -d_{3}%
+\end{array}%
+-%
+\begin{array}{ccc}
+\lambda & 0 & 0 \\ 
+0 & \lambda & 0 \\ 
+0 & 0 & \lambda%
+\end{array}%
+) &=&0,
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\lambda _{1} &=&r_{1}-\frac{a_{13}\rho }{d_{3}}, \\
+\lambda _{2} &=&r_{2}, \\
+\lambda _{3} &=&-d_{3},
+\end{eqnarray*}
+
+\bigskip Se observa que $\lambda _{1}<0$ si se cumple la condicion $\rho >%
+\frac{r_{1}d_{3}}{a_{13}}$, $\lambda _{2}>0$ y $\lambda _{3}<0$. El m\'{e}%
+todo de estabilidad de Lyapunov nos indica que para $\lambda >0$ la soluci%
+\'{o}n no converge al punto de equilibrio y se presentar\'{a} una dinamica
+del tipo Saddle.
+
+\section{Conjuntos Compactos Invariantes}
+
+\qquad Para definir el dominio de loscalizaci\'{o}n del sistema bajo
+estudio, es necesario proponer diferentes funciones localizadoras hasta
+encontrar las que permitan establecer l\'{\i}mites inferiores y/o superiores
+de cada una de las variables de estado, en este caso, $x(t)$, $y(t)$ y $z(t)$%
+. Para sistemas biol\'{o}gicos cuya din\'{a}mica se localiza en el ortante
+no negativo, se debe recordar que las soluciones con condiciones iniciales
+no negativas se encontrar\'{a}n en el siguiente dominio:%
+\begin{equation*}
+%TCIMACRO{\U{211d} }%
+%BeginExpansion
+\mathbb{R}
+%EndExpansion
+_{+,0}^{3}=\{\varphi \in 
+%TCIMACRO{\U{211d} }%
+%BeginExpansion
+\mathbb{R}
+%EndExpansion
+_{+,0}^{3}:x,y,z\geq 0\}.
+\end{equation*}
+
+Primero, se explora la funci\'{o}n
+
+\begin{equation*}
+h_{1}=x,
+\end{equation*}
+
+y se calcula su derivada de Lie (la derivada parcial con respecto al tiempo)
+
+\begin{equation*}
+L_{f}h_{1}=\frac{dx}{dt}=r_{1}x(1-b_{1}x)-a_{12}xy-a_{13}xz,
+\end{equation*}
+
+a partir de lo anterior, se define el conjunto $S(h_{1})=\{L_{f}h_{1}=0\}$,
+por lo tanto,%
+\begin{equation*}
+S(h_{1})=\{r_{1}x(1-b_{1}x)-a_{12}xy-a_{13}xz=0\},
+\end{equation*}
+
+se observa que la bvariable de estado $x(t)$ se encuentra como factor com%
+\'{u}n, por lo tanto, se reescribe el conjunto de la siguiente forma
+
+\begin{equation*}
+S(h_{1})=\{r_{1}-b_{1}r_{1}x-a_{12}y-a_{13}z=0\}\cup \{x=0\},
+\end{equation*}
+
+del resultado anterior, es evidente que el l\'{\i}mite inferior de la
+variable est\'{a} dado por:
+
+\begin{equation*}
+x(t)\geq x_{\inf }=0,
+\end{equation*}
+
+y adem\'{a}s, se establece como plano invariante o semipermeable, por que
+las trayectorias/soluciones no pueden atravesar el plano $x=0$ desde valores
+positivos hacia los negativos. Ahora, para encontrar un l\'{\i}mite
+superior, es necesario verificar si es posible reescribir el conjunto de la
+siguiente forma general:
+
+\QTP{Body Math}
+\begin{equation*}
+S(h)=\{x=\text{constante}-f(x,y,z)\}\cup \{x=0\},
+\end{equation*}
+
+con base en lo anterior, se reescribe $S(h_{l})$ de la siguiene forma
+
+\begin{equation*}
+S(h_{1})=\{x=\frac{1}{b_{1}}-\frac{a_{12}}{b_{1}r_{1}}y-\frac{a_{13}}{%
+b_{1}r_{1}}z\}\cup \{x=0\},
+\end{equation*}
+
+donde
+
+\begin{equation*}
+f(y,z)=\frac{a_{12}}{b_{1}r_{1}}y+\frac{a_{13}}{b_{1}r_{1}}z
+\end{equation*}
+
+por lo tanto
+
+\begin{equation*}
+S(h_{1})=\{x=\frac{1}{b_{1}}-f(y,z)\}\cup \{x=0\},
+\end{equation*}
+
+con base en lo anterior, se concluye el siguiente resultado para los l\'{\i}%
+mites de la variable $x(t):$
+
+\begin{equation*}
+K_{x}=\{x_{\inf }=0\leq x(t)\leq x_{\sup }=\frac{1}{b_{1}}\}.
+\end{equation*}
+
+\qquad Ahora se muestra el an\'{a}lisis para determinar los l\'{\i}mites de
+la variable $y(t):$
+
+\QTP{Body Math}
+\begin{eqnarray*}
+h_{2} &=&y, \\
+L_{f}h_{2} &=&\frac{dy}{dt}=r_{2}y(1-b_{2}y)-a_{21}xy, \\
+S(h_{2}) &=&\{L_{f}h_{2}=0\}, \\
+S(h_{2} &=&\{r_{2}y(1-b_{2}y)-a_{21}xy=0\} \\
+S(h_{2}) &=&\{r_{2}-b_{2}r_{2}y-a_{21}x=0\}\cup \{y=0\}, \\
+S(h_{2}) &=&\{y=\text{constante}-f(x,y,z)\}\cup \{y=0\}, \\
+S(h_{2}) &=&\{y=\frac{1}{b_{2}}-\frac{a_{21}}{b_{2}r_{2}}x\}\cup \{y=0\}, \\
+f(x) &=&\frac{a_{21}}{b_{2}r_{2}}x, \\
+S(h_{2}) &=&\{y=\frac{1}{b_{2}}-f(x)\}\cup \{y=0\}, \\
+K_{y} &=&\{y_{\inf }=0\leq y(t)\leq y_{\sup }=\frac{1}{b_{2}}\}.
+\end{eqnarray*}
+
+$\qquad $Para determinar el l\'{\i}mite inferior de la variable de estado $%
+z(t)$, se propone la siguiente funci\'{o}n localizadora:
+
+\begin{eqnarray*}
+h_{3} &=&z, \\
+L_{f}h_{3} &=&\frac{dz}{dt}=(r_{3}-a_{31})xz-d_{3}z+\rho , \\
+S(h_{3}) &=&\{L_{f}h_{3}=0\}, \\
+S(h_{3}) &=&\{(r_{3}-a_{31})xz-d_{3}z+\rho ,
+\end{eqnarray*}
+
+esta funci\'{o}n se propone para encontrar el l\'{\i}mite inferior, por lo
+tanto, la forma general, se define como se muestra a continuaci\'{o}n:
+
+\QTP{Body Math}
+\begin{equation*}
+S(h)=\{z=\text{constante}+f(x,y,z)\}
+\end{equation*}
+
+\QTP{Body Math}
+\begin{equation*}
+S(h_{3})=\{z=\frac{\rho }{d_{3}}+\frac{r_{3}-a_{31}}{d_{3}}xz\},
+\end{equation*}
+
+entonces, si la siguiente condicion se cumple
+
+\begin{equation*}
+r_{3}-a_{31}>0,
+\end{equation*}
+
+se reescribe el conjunto como indica
+
+\begin{equation*}
+S(h_{3})=\{z=\frac{\rho }{d_{3}}+f(x,z)\},
+\end{equation*}
+
+y se define el siguiente resultado
+
+\begin{equation*}
+K_{z}=\{z(t)\geq z_{\inf }=\frac{\rho }{d_{3}}\}.
+\end{equation*}
+
+\bigskip
+
+\section{Estailidad asint\'{o}tica global: Condiciones de eliminaci\'{o}n}
+
+\qquad Para establecer condiciones de eliminaci\'{o}n de la variable que
+describe la din\'{a}mica de la poblaci\'{o}n de c\'{e}ulas patol\'{o}gicas,
+se debe apicar el m\'{e}todo directo de Lyapunov, por lo cual, se debe
+proponer la denominada funci\'{o}n candidata de Lyapunov:
+
+\begin{equation*}
+V=x,
+\end{equation*}
+
+\qquad Nota: Se toma la variable de las c\'{e}lulas patol\'{o}gicas porque
+es la din\'{a}mica que se quiere controlar, es decir, enviar al origen $x=0$%
+, esto implica que se elimina completamente la poblaci\'{o}n de c\'{e}lulas
+patol\'{o}gicas en el sistema.
+
+\qquad Se calcula la derivada teporal de la funci\'{o}n candidata de
+Lyapunov como se indica:
+
+\begin{equation*}
+\dot{V}=\frac{dV}{dt}=\dot{x}=r_{1}x(1-b_{1}x)-a_{12}xy-a_{13}xz,
+\end{equation*}
+
+para cumplir con las condiciones del m\'{e}todo directo de Lyapunov, es
+decir,
+
+1. La funci\'{o}n candidata debe ser definida postiva: Que significa
+definida positiva?
+
+Significa que la funcion candidata $V(x)>0$ para $x>0$ y $x\neq 0$
+
+2. La funcion candidata debe de ser radialmente desacotada: Que significa
+radialmente desacotada?
+
+Significa que $V(x)\longrightarrow \infty $ cuando $\left\Vert x\right\Vert
+\longrightarrow \infty $
+
+3. La derivada temporal de la funcion candidata debe de ser al menos
+semidefinida negativa, preferentemente negativa definida. Que significa
+semidefinida negativa y definida negativa?
+
+Es semidefinida negativa si $\dot{V}(0)=0$ y $\dot{V}\leq 0$ para $x>0$. Es
+definida negativa si $\dot{V}<0$ para $x>0$ y $\dot{V}(0)=0$.
+
+4. Que sucede cuando la derivada es semidefinida negativa? Que metodo se
+debe aplicar para establecer las condiciones de estabilidad global?
+
+Cuando la derivada temporal de una funci\'{o}n candidata de Lyapunv es
+semidefinida negativa, se garantiza que la funci\'{o}n no aumenta a lo largo
+de las trayectorias del sistema. Para establecer condiciones de estabilidad
+asint\'{o}tica global se puede aplicar el principio de invariancia de
+LaSalle, el cual permite \qquad \qquad analizar el comportamiento de las
+trayectorias dentro del conjunto deonde la derivada temporal de la funci\'{o}%
+n candidata es cero.
+
+Con base en el resultado de la derivada, se evalua en los l\'{\i}mites
+encontrados para cada variale:
+
+\begin{equation*}
+\left. \dot{V}\right\vert _{K_{x}\cap K_{y}\cap K_{z}},
+\end{equation*}
+
+obetniendo el siguiente resultado
+
+\begin{equation*}
+\dot{V}=(r_{1}-b_{1}r_{1}x-a_{12}y-a_{13}z)x\leq r_{1}-b_{1}r_{1}x_{\inf
+}-a_{12}y_{\inf }-a_{13}z_{\inf })x\leq 0,
+\end{equation*}
+
+de la condicion anterior, se formula la siguiente desigualdad
+
+\begin{equation*}
+r_{1}-\frac{a_{13}}{d_{3}}\rho <0,
+\end{equation*}
+
+se resuelve la desigualdad con respecto al par\'{a}metro $\rho $
+
+\begin{equation*}
+\rho >\frac{r_{1}d_{3}}{a_{13}}.
+\end{equation*}
+
+\qquad Con base en la condici\'{o}n anterior, se concluye el siguiente
+resultado:
+
+\bigskip 
+
+\bigskip \textbf{Resultado: Condici\'{o}n de eliminaci\'{o}n.} \textit{Si la
+siguiente condici\'{o}n se satisface }
+
+\begin{equation*}
+\rho >\frac{r_{1}d_{3}}{a_{13}}
+\end{equation*}
+
+entonces, la poblaci\'{o}n de c\'{e}lulas patol\'{o}gicas se eliminar\'{a}
+para cualquier condicion inicial positiva, adem\'{a}as, las trayectorias
+converger\'{a}n al siguiente punto de equilibrio:
+
+\begin{equation*}
+(x_{1}^{\ast },y_{1}^{\ast },z_{1}^{\ast })=(0,\frac{1}{b_{2}},\frac{\rho }{%
+d_{3}}).
+\end{equation*}
+
+\end{document}
