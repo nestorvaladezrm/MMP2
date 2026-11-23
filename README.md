@@ -21,11 +21,11 @@ El modelo considera la interacción entre una población de células patológica
 2. [Objetivos](#objetivos)
 3. [Modelo matemático](#modelo)
 4. [Análisis matemático](#analisis)
-   - [Positividad e invariancia](#positividad)
-   - [Equilibrios libres de células patológicas](#equilibrios)
-   - [Estabilidad asintótica local](#estabilidad)
-   - [Conjuntos compactos invariantes](#compactos)
-   - [Estabilidad asintótica global y condiciones de eliminación](#lyapunov)
+    - [Positividad e invariancia](#positividad)
+    - [Equilibrios libres de células patológicas](#equilibrios)
+    - [Estabilidad asintótica local](#estabilidad)
+    - [Conjuntos compactos invariantes](#compactos)
+    - [Estabilidad asintótica global y condiciones de eliminación](#lyapunov)
 5. [Actividades y desarrollo de la práctica](#actividades)
 6. [Resultados analíticos principales](#resultados)
 7. [Alcance y consideraciones](#alcance)
@@ -166,7 +166,7 @@ $$
 
 **Resultado — Positividad e invariancia.** Si el campo vectorial satisface las condiciones de frontera anteriores y las condiciones iniciales pertenecen a $\mathbb{R}_{+,0}^{3}$, entonces el octante no negativo es positivamente invariante: las soluciones permanecen en dicho dominio para todo tiempo en el que estén definidas.
 
-> **Nota sobre la condición de positividad:** al sustituir $z=0$ en la tercera ecuación, los términos que contienen $z$ se anulan y queda $\left.\dot z\right|_{z=0}=\rho>0$. Por tanto, la frontera $z=0$ apunta hacia el interior del octante no negativo. Junto con las evaluaciones en $x=0$ y $y=0$, esto respalda la invariancia positiva del dominio para condiciones iniciales no negativas.
+> **Nota sobre la condición de positividad:** al sustituir $z=0$ en la tercera ecuación, los términos que contienen $z$ se anulan y queda $\left.\dot{z}\right|_{z=0}=\rho>0$. Por tanto, la frontera $z=0$ apunta hacia el interior del octante no negativo. Junto con las evaluaciones en $x=0$ y $y=0$, esto respalda la invariancia positiva del dominio para condiciones iniciales no negativas.
 
 [Volver al contenido](#contenido)
 
@@ -573,9 +573,9 @@ E_1=
 \left(0,\frac{1}{b_2},\frac{\rho}{d_3}\right).
 $$
 
-Cuando la derivada de Lyapunov es únicamente semidefinida negativa, el principio de invariancia de LaSalle permite analizar el conjunto donde $\dot V=0$ para establecer la convergencia asintótica, siempre que se satisfagan sus hipótesis.
+Cuando la derivada de Lyapunov es únicamente semidefinida negativa, el principio de invariancia de LaSalle permite analizar el conjunto donde $\dot{V}=0$ para establecer la convergencia asintótica, siempre que se satisfagan sus hipótesis.
 
-> **Alcance de la conclusión:** la función $V=x$ es positiva definida respecto de la variable objetivo $x$, pero no es radialmente no acotada respecto del vector completo $(x,y,z)$. Por ello, una demostración rigurosa de estabilidad global del equilibrio tridimensional requiere justificar por separado la acotación e invariancia del conjunto, así como aplicar el principio de LaSalle al conjunto donde $\dot V=0$. La desigualdad de control anterior se presenta como la condición suficiente obtenida en el desarrollo de la práctica.
+> **Alcance de la conclusión:** la función $V=x$ es positiva definida respecto de la variable objetivo $x$, pero no es radialmente no acotada respecto del vector completo $(x,y,z)$. Por ello, una demostración rigurosa de estabilidad global del equilibrio tridimensional requiere justificar por separado la acotación e invariancia del conjunto, así como aplicar el principio de LaSalle al conjunto donde $\dot{V}=0$. La desigualdad de control anterior se presenta como la condición suficiente obtenida en el desarrollo de la práctica.
 
 [Volver al contenido](#contenido)
 
@@ -623,7 +623,7 @@ El desarrollo proporcionado para esta práctica se organiza alrededor de los sig
 ### 6. Estabilidad asintótica global
 
 - Selección de la función candidata $V=x$.
-- Cálculo de $\dot V$.
+- Cálculo de $\dot{V}$.
 - Evaluación de la derivada utilizando los límites del sistema.
 - Obtención de la condición de control para la eliminación.
 - Consideración del principio de invariancia de LaSalle.
@@ -640,57 +640,57 @@ Las condiciones principales obtenidas en el desarrollo se resumen a continuació
 **Equilibrios libres de células patológicas**
 
 $$
-E_0=\\left(0,0,\\frac{\\rho}{d_3}\\right),
-\\qquad
-E_1=\\left(0,\\frac{1}{b_2},\\frac{\\rho}{d_3}\\right).
+E_0=\left(0,0,\frac{\rho}{d_3}\right),
+\qquad
+E_1=\left(0,\frac{1}{b_2},\frac{\rho}{d_3}\right).
 $$
 
-**Valores propios en el equilibrio `E_1`**
+**Valores propios en el equilibrio $E_1$**
 
 $$
-\\lambda_1=r_1-\\frac{a_{12}}{b_2}-\\frac{a_{13}\\rho}{d_3},
-\\qquad
-\\lambda_2=-r_2,
-\\qquad
-\\lambda_3=-d_3.
+\lambda_1=r_1-\frac{a_{12}}{b_2}-\frac{a_{13}\rho}{d_3},
+\qquad
+\lambda_2=-r_2,
+\qquad
+\lambda_3=-d_3.
 $$
 
-**Condición de estabilidad local de `E_1`**
+**Condición de estabilidad local de $E_1$**
 
 $$
-\\rho>\\frac{d_3}{a_{13}}
-\\left(r_1-\\frac{a_{12}}{b_2}\\right).
+\rho>\frac{d_3}{a_{13}}
+\left(r_1-\frac{a_{12}}{b_2}\right).
 $$
 
-**Valores propios en el equilibrio `E_0`**
+**Valores propios en el equilibrio $E_0$**
 
 $$
-\\lambda_1=r_1-\\frac{a_{13}\\rho}{d_3},
-\\qquad
-\\lambda_2=r_2,
-\\qquad
-\\lambda_3=-d_3.
+\lambda_1=r_1-\frac{a_{13}\rho}{d_3},
+\qquad
+\lambda_2=r_2,
+\qquad
+\lambda_3=-d_3.
 $$
 
-El equilibrio `E_0` es un punto silla, debido a que `lambda_2` es positivo y `lambda_3` es negativo.
+El equilibrio $E_0$ es un punto silla, debido a que $\lambda_2$ es positivo y $\lambda_3$ es negativo.
 
 **Cotas propuestas para las variables**
 
 $$
-0\\leq x(t)\\leq\\frac{1}{b_1},
-\\qquad
-0\\leq y(t)\\leq\\frac{1}{b_2},
-\\qquad
-z(t)\\geq\\frac{\\rho}{d_3}.
+0\leq x(t)\leq\frac{1}{b_1},
+\qquad
+0\leq y(t)\leq\frac{1}{b_2},
+\qquad
+z(t)\geq\frac{\rho}{d_3}.
 $$
 
 **Condición suficiente de eliminación global propuesta**
 
 $$
-\\rho>\\frac{r_1d_3}{a_{13}}.
+\rho>\frac{r_1d_3}{a_{13}}.
 $$
 
-La condición de eliminación global es más restrictiva que la condición local de estabilidad de `E_1` cuando `a_12/b_2` es positivo. Esto es consistente con que una condición global suficiente debe garantizar un resultado sobre un conjunto más amplio de condiciones iniciales que una condición de estabilidad local.
+La condición de eliminación global es más restrictiva que la condición local de estabilidad de $E_1$ cuando $a_{12}/b_2$ es positivo. Esto es consistente con que una condición global suficiente debe garantizar un resultado sobre un conjunto más amplio de condiciones iniciales que una condición de estabilidad local.
 
 [Volver al contenido](#contenido)
 
