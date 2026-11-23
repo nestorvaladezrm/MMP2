@@ -155,11 +155,9 @@ Por tanto, la condición sobre la frontera $z=0$ es no negativa si, por ejemplo,
 
 El dominio de interés se define como
 
-$$
-R^3_{\geq 0}
-=
-\{(x,y,z)\mid x\geq 0,\ y\geq 0,\ z\geq 0\}
-$$
+```math
+\mathbb{R}_{+,0}^{3} = \left\{ (x,y,z)\in\mathbb{R}^{3} : x\geq 0,\ y\geq 0,\ z\geq 0 \right\}.
+```
 
 **Resultado — Positividad e invariancia.** Si el campo vectorial satisface las condiciones de frontera anteriores y las condiciones iniciales pertenecen a $\mathbb{R}_{+,0}^{3}$, entonces el octante no negativo es positivamente invariante: las soluciones permanecen en dicho dominio para todo tiempo en el que estén definidas.
 
