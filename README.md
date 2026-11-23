@@ -97,23 +97,23 @@ El sistema puede expresarse en forma vectorial como
 
 Las variables de estado son:
 
-- `x(t)`: población de células patológicas cuya eliminación se busca.
-- `y(t)`: segunda población celular.
-- `z(t)`: tercera población celular, asociada al término de control `rho`.
+- $x(t)$: población de células patológicas cuya eliminación se busca.
+- $y(t)$: segunda población celular.
+- $z(t)$: tercera población celular, asociada al término de control $\rho$.
 
 Los parámetros del modelo son:
 
-- `r_1`: tasa de crecimiento de la población `x`.
-- `r_2`: tasa de crecimiento de la población `y`.
-- `r_3`: coeficiente de interacción de `x` y `z` en la ecuación de `z`.
-- `b_1`: coeficiente de saturación o limitación de la población `x`.
-- `b_2`: coeficiente de saturación o limitación de la población `y`.
-- `a_12`: coeficiente de interacción entre `x` y `y` en la ecuación de `x`.
-- `a_13`: coeficiente de interacción entre `x` y `z` en la ecuación de `x`.
-- `a_21`: coeficiente de interacción entre `x` y `y` en la ecuación de `y`.
-- `a_31`: coeficiente que modifica la interacción entre `x` y `z`.
-- `d_3`: tasa de disminución de la población `z`.
-- `rho`: parámetro de control positivo.
+- $r_1$: tasa de crecimiento de la población $x$.
+- $r_2$: tasa de crecimiento de la población $y$.
+- $r_3$: coeficiente de interacción de $x$ y $z$ en la ecuación de $z$.
+- $b_1$: coeficiente de saturación o limitación de la población $x$.
+- $b_2$: coeficiente de saturación o limitación de la población $y$.
+- $a_{12}$: coeficiente de interacción entre $x$ y $y$ en la ecuación de $x$.
+- $a_{13}$: coeficiente de interacción entre $x$ y $z$ en la ecuación de $x$.
+- $a_{21}$: coeficiente de interacción entre $x$ y $y$ en la ecuación de $y$.
+- $a_{31}$: coeficiente que modifica la interacción entre $x$ y $z$.
+- $d_3$: tasa de disminución de la población $z$.
+- $\rho$: parámetro de control positivo.
 
 [Volver al contenido](#contenido)
 
@@ -201,13 +201,13 @@ z^*=\frac{\rho}{d_3}.
 Por consiguiente, los dos equilibrios libres de células patológicas son
 
 ```math
-E_0 = \left(0,0,\frac{\rho}{d_3}\right),
+E_0 = \{ 0,0,\frac{\rho}{d_3} \},
 ```
 
 y
 
 ```math
-E_1 = \left(0,\frac{1}{b_2},\frac{\rho}{d_3}\right).
+E_1 = \{ 0,\frac{1}{b_2},\frac{\rho}{d_3} \}.
 ```
 
 El equilibrio $E_0$ representa la ausencia de las tres poblaciones salvo el nivel de equilibrio impuesto por el parámetro de control en $z$. El equilibrio $E_1$ representa la eliminación de la población $x$, mientras que la población $y$ alcanza su nivel de saturación $1/b_2$ y la variable $z$ alcanza $\rho/d_3$.
@@ -230,7 +230,7 @@ J(x,y,z)= \begin{bmatrix} r_1-a_{12}y-a_{13}z-2b_1r_1x & -a_{12}x & -a_{13}x\\ -
 Se evalúa la Jacobiana en
 
 ```math
-E_1 = \left(0,\frac{1}{b_2},\frac{\rho}{d_3}\right).
+E_1 = \{ 0,\frac{1}{b_2},\frac{\rho}{d_3} \}.
 ```
 
 La matriz resultante es
@@ -258,7 +258,7 @@ r_1-\frac{a_{12}}{b_2}-\frac{a_{13}\rho}{d_3}<0.
 Despejando el parámetro de control:
 
 ```math
-\rho > \frac{d_3}{a_{13}}\left(r_1-\frac{a_{12}}{b_2}\right).
+\rho > \frac{d_3}{a_{13}}(r_1-\frac{a_{12}}{b_2}).
 ```
 
 **Resultado — Condición de eliminación local.** Si se satisface la desigualdad anterior, entonces el equilibrio $E_1$ es localmente asintóticamente estable. En consecuencia, las condiciones iniciales suficientemente cercanas a este equilibrio convergen hacia un estado con $x=0$.
@@ -266,7 +266,7 @@ Despejando el parámetro de control:
 **Resultado complementario — Persistencia local.** Si
 
 ```math
-\rho < \frac{d_3}{a_{13}}\left(r_1-\frac{a_{12}}{b_2}\right),
+\rho < \frac{d_3}{a_{13}}(r_1-\frac{a_{12}}{b_2}),
 ```
 
 entonces $\lambda_1>0$ y el equilibrio $E_1$ es inestable. Esto permite que la población patológica persista para condiciones iniciales cercanas al equilibrio, aunque por sí solo no demuestra persistencia para todas las condiciones iniciales.
@@ -276,7 +276,7 @@ entonces $\lambda_1>0$ y el equilibrio $E_1$ es inestable. Esto permite que la p
 Para el equilibrio
 
 ```math
-E_0 = \left(0,0,\frac{\rho}{d_3}\right),
+E_0 = \{ 0,0,\frac{\rho}{d_3} \},
 ```
 
 la matriz Jacobiana evaluada es
@@ -462,7 +462,7 @@ Factorizando $x$:
 Al evaluar sobre las cotas propuestas para el sistema, en particular $x_{\inf}=0$, $y_{\inf}=0$ y $z_{\inf}=\rho/d_3$, se obtiene la estimación
 
 ```math
-\dot{V} \leq \left(r_1-\frac{a_{13}\rho}{d_3}\right)x.
+\dot{V} \leq (r_1-\frac{a_{13}\rho}{d_3})x.
 ```
 
 Para que la derivada sea no positiva se requiere
@@ -486,7 +486,7 @@ Una condición suficiente estricta es
 entonces la derivada de la función candidata es negativa para $x>0$ dentro del conjunto considerado. Esto permite concluir que la población de células patológicas disminuye y converge a cero. El equilibrio límite indicado en el desarrollo es
 
 ```math
-E_1 = \left(0,\frac{1}{b_2},\frac{\rho}{d_3}\right).
+E_1 = \{ 0,\frac{1}{b_2},\frac{\rho}{d_3} \}.
 ```
 
 Cuando la derivada de Lyapunov es únicamente semidefinida negativa, el principio de invariancia de LaSalle permite analizar el conjunto donde $\dot{V}=0$ para establecer la convergencia asintótica, siempre que se satisfagan sus hipótesis.
@@ -556,28 +556,28 @@ Las condiciones principales obtenidas en el desarrollo se resumen a continuació
 **Equilibrios libres de células patológicas**
 
 ```math
-E_0=\left(0,0,\frac{\rho}{d_3}\right), \qquad E_1=\left(0,\frac{1}{b_2},\frac{\rho}{d_3}\right).
+E_0=\{ 0,0,\frac{\rho}{d_3} \}, \qquad E_1=\{ 0,\frac{1}{b_2},\frac{\rho}{d_3} \}.
 ```
 
-**Valores propios en el equilibrio `E_1`**
+**Valores propios en el equilibrio $E_1$**
 
 ```math
 \lambda_1=r_1-\frac{a_{12}}{b_2}-\frac{a_{13}\rho}{d_3}, \qquad \lambda_2=-r_2, \qquad \lambda_3=-d_3.
 ```
 
-**Condición de estabilidad local de `E_1`**
+**Condición de estabilidad local de $E_1$**
 
 ```math
-\rho>\frac{d_3}{a_{13}}\left(r_1-\frac{a_{12}}{b_2}\right).
+\rho>\frac{d_3}{a_{13}}(r_1-\frac{a_{12}}{b_2}).
 ```
 
-**Valores propios en el equilibrio `E_0`**
+**Valores propios en el equilibrio $E_0$**
 
 ```math
 \lambda_1=r_1-\frac{a_{13}\rho}{d_3}, \qquad \lambda_2=r_2, \qquad \lambda_3=-d_3.
 ```
 
-El equilibrio `E_0` es un punto silla, debido a que `lambda_2` es positivo y `lambda_3` es negativo.
+El equilibrio $E_0$ es un punto silla, debido a que $\lambda_2$ es positivo y $\lambda_3$ es negativo.
 
 **Cotas propuestas para las variables**
 
@@ -591,7 +591,7 @@ El equilibrio `E_0` es un punto silla, debido a que `lambda_2` es positivo y `la
 \rho>\frac{r_1d_3}{a_{13}}.
 ```
 
-La condición de eliminación global es más restrictiva que la condición local de estabilidad de `E_1` cuando `a_12/b_2` es positivo. Esto es consistente con que una condición global suficiente debe garantizar un resultado sobre un conjunto más amplio de condiciones iniciales que una condición de estabilidad local.
+La condición de eliminación global es más restrictiva que la condición local de estabilidad de $E_1$ cuando $a_{12}/b_2$ es positivo. Esto es consistente con que una condición global suficiente debe garantizar un resultado sobre un conjunto más amplio de condiciones iniciales que una condición de estabilidad local.
 
 [Volver al contenido](#contenido)
 
@@ -613,7 +613,7 @@ Tampoco se proporcionan valores numéricos de los parámetros, condiciones inici
 <a id="referencias"></a>
 ## Referencias
 
-[1] P. A. Valle, *Syllabus para Biología de Sistemas y Gemelos Digitales*, Tecnológico Nacional de México / Instituto Tecnológico de Tijuana, Tijuana, B.C., México, 2026. Disponible en: https://biomath.xyz/course/
+[1] P. A. Valle, *Syllabus para Biología de Sistemas y Gemelos Digitales*, Tecnológico Nacional de México / Instituto Tecnológico de Tijuana, Tijuana, B.C., México, 2026. Disponible en: [https://biomath.xyz/course/](https://biomath.xyz/course/)
 
 [2] De Leenheer y Aeyels, trabajo citado en el material de la práctica para el análisis de positividad del sistema. La referencia bibliográfica completa no aparece en el documento fuente.
 
