@@ -1,3 +1,4 @@
+[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=nestorvaladezrm/MMP2)
 # Práctica 2 — Caos en Sistemas Biológicos
 
 Repositorio académico de la asignatura **Modelado Matemático**, correspondiente a la **Maestría en Ciencias de la Ingeniería** del Tecnológico Nacional de México / Instituto Tecnológico de Tijuana. Esta práctica estudia un modelo de tres poblaciones celulares mediante ecuaciones diferenciales ordinarias no lineales, con énfasis en la positividad del sistema, los puntos de equilibrio, la estabilidad local, los conjuntos compactos invariantes y las condiciones de eliminación de células patológicas.
