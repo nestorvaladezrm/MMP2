@@ -92,12 +92,12 @@ Se considera que los parámetros son positivos, que las condiciones iniciales so
 El sistema puede expresarse en forma vectorial como
 
 $$
-\dot{\mathbf{X}}=\mathbf{F}(\mathbf{X}),
-\qquad
-\mathbf{X}=
+X =
 \begin{bmatrix}
-x\\y\\z
-\end{bmatrix}.
+x \\
+y \\
+z
+\end{bmatrix}
 $$
 
 Las variables de estado son:
