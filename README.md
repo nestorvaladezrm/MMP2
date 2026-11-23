@@ -1,10 +1,8 @@
-[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=nestorvaladezrm/MMP2)
-# MMP2
 # Práctica 2 — Caos en Sistemas Biológicos
 
-Repositorio académico de la asignatura **Modelado Matemático**, correspondiente a la **Maestría en Ciencias de la Ingeniería** del Tecnológico Nacional de México / Instituto Tecnológico de Tijuana. Esta práctica estudia un sistema dinámico no lineal de tres poblaciones celulares, mediante el análisis de positividad, puntos de equilibrio, estabilidad local, conjuntos compactos invariantes y condiciones de eliminación de células patológicas utilizando el método directo de Lyapunov.
+Repositorio académico de la asignatura **Modelado Matemático**, correspondiente a la **Maestría en Ciencias de la Ingeniería** del Tecnológico Nacional de México / Instituto Tecnológico de Tijuana. Esta práctica estudia un modelo de tres poblaciones celulares mediante ecuaciones diferenciales ordinarias no lineales, con énfasis en la positividad del sistema, los puntos de equilibrio, la estabilidad local, los conjuntos compactos invariantes y las condiciones de eliminación de células patológicas.
 
-El modelo considera la interacción entre tres poblaciones celulares, representadas por las variables de estado \(x(t)\), \(y(t)\) y \(z(t)\), así como un parámetro de control \(\rho\) que influye en la dinámica de la tercera población.
+El modelo considera la interacción entre una población de células patológicas y otras dos poblaciones celulares, además de un parámetro de control $\rho$ que influye en la dinámica de la tercera variable.
 
 **Docente:** Dr. Paul Antonio Valle Trujillo  
 **Departamento:** Ingeniería Eléctrica y Electrónica  
@@ -22,32 +20,29 @@ El modelo considera la interacción entre tres poblaciones celulares, representa
 1. [Resumen](#resumen)
 2. [Objetivos](#objetivos)
 3. [Modelo matemático](#modelo)
-4. [Positividad e invariancia](#positividad)
-5. [Puntos de equilibrio libres de células patológicas](#equilibrios)
-6. [Estabilidad asintótica local](#estabilidad-local)
-7. [Conjuntos compactos invariantes](#conjuntos)
-8. [Estabilidad asintótica global: condiciones de eliminación](#estabilidad-global)
-9. [Actividades de la práctica](#actividades)
-10. [Resultados y condiciones principales](#resultados)
-11. [Alcance del material y reproducibilidad](#reproducibilidad)
-12. [Referencias](#referencias)
+4. [Análisis matemático](#analisis)
+   - [Positividad e invariancia](#positividad)
+   - [Equilibrios libres de células patológicas](#equilibrios)
+   - [Estabilidad asintótica local](#estabilidad)
+   - [Conjuntos compactos invariantes](#compactos)
+   - [Estabilidad asintótica global y condiciones de eliminación](#lyapunov)
+5. [Actividades y desarrollo de la práctica](#actividades)
+6. [Resultados analíticos principales](#resultados)
+7. [Alcance y consideraciones](#alcance)
+8. [Referencias](#referencias)
 
 ---
 
 <a id="resumen"></a>
 ## Resumen
 
-Esta práctica estudia la dinámica de un sistema biológico compuesto por tres poblaciones celulares. El modelo se describe mediante un sistema de tres ecuaciones diferenciales ordinarias no lineales de primer orden. A partir de su formulación matemática, se analiza si las soluciones permanecen en el octante no negativo, se determinan los puntos de equilibrio en los que se elimina la población de células patológicas y se estudia la estabilidad local mediante la matriz Jacobiana y sus valores propios.
+Esta práctica estudia un modelo matemático de tres ecuaciones diferenciales ordinarias no lineales que describe la interacción entre tres poblaciones celulares. El análisis se enfoca en la población de células patológicas, representada por $x(t)$, cuya eliminación se busca mediante el parámetro de control $\rho$.
 
-Posteriormente, se construyen conjuntos invariantes para establecer límites inferiores y superiores de las variables de estado. Finalmente, se propone la función candidata de Lyapunov \(V=x\), con el propósito de obtener una condición sobre el parámetro de control \(\rho\) que permita garantizar la eliminación de las células patológicas para condiciones iniciales positivas.
+Primero se formula el sistema y se examina la positividad de sus soluciones en el octante no negativo. Después se determinan los puntos de equilibrio libres de células patológicas, se construye la matriz Jacobiana y se obtienen condiciones para la estabilidad asintótica local. Posteriormente se proponen conjuntos invariantes para acotar las variables de estado y se utiliza una función candidata de Lyapunov para establecer una condición suficiente de eliminación global.
 
-La condición principal de eliminación obtenida mediante el análisis global es
+El resultado central del análisis presentado es que, bajo las condiciones indicadas para el modelo y sus parámetros, el control debe satisfacer una cota inferior relacionada con $r_1$, $d_3$ y $a_{13}$ para favorecer la eliminación de la población patológica.
 
-\[
-\rho>\frac{r_1d_3}{a_{13}}.
-\]
-
-**Palabras clave:** biología matemática; células patológicas; ecuaciones diferenciales ordinarias; estabilidad asintótica; estabilidad de Lyapunov; sistemas dinámicos no lineales; puntos de equilibrio; conjuntos invariantes.
+**Palabras clave:** sistemas biológicos; ecuaciones diferenciales ordinarias; poblaciones celulares; positividad; puntos de equilibrio; matriz Jacobiana; estabilidad local; conjuntos invariantes; función de Lyapunov; eliminación de células patológicas.
 
 [Volver al contenido](#contenido)
 
@@ -58,18 +53,18 @@ La condición principal de eliminación obtenida mediante el análisis global es
 
 ### Objetivo general
 
-Analizar la dinámica de un sistema biológico de tres poblaciones celulares mediante herramientas de sistemas dinámicos no lineales, con el propósito de establecer condiciones matemáticas para la eliminación de la población de células patológicas.
+Analizar la dinámica de un sistema biológico de tres poblaciones celulares mediante herramientas de sistemas dinámicos no lineales, con el propósito de establecer condiciones de estabilidad y eliminación de la población de células patológicas.
 
 ### Objetivos específicos
 
 - Formular el modelo matemático mediante un sistema de tres ecuaciones diferenciales ordinarias no lineales.
-- Analizar la positividad de las soluciones y demostrar la invariancia del octante no negativo.
-- Determinar los puntos de equilibrio correspondientes a la ausencia de células patológicas.
-- Construir la matriz Jacobiana y calcular los valores propios de los equilibrios de interés.
-- Establecer condiciones para la estabilidad asintótica local del equilibrio libre de células patológicas.
-- Construir conjuntos invariantes que permitan determinar límites para las variables de estado.
-- Aplicar el método directo de Lyapunov para obtener condiciones de eliminación global de la población patológica.
-- Interpretar el efecto del parámetro de control \(\rho\) sobre la dinámica del sistema.
+- Examinar las condiciones de positividad de las soluciones y la invariancia del octante no negativo.
+- Determinar los puntos de equilibrio en los que la población de células patológicas es nula.
+- Construir la matriz Jacobiana y calcular los valores propios en los puntos de equilibrio.
+- Establecer condiciones de estabilidad asintótica local en función del parámetro de control $\rho$.
+- Proponer límites inferiores y superiores para las variables de estado mediante conjuntos invariantes.
+- Aplicar el método directo de Lyapunov para obtener una condición suficiente de eliminación global.
+- Interpretar el significado biológico de las condiciones matemáticas obtenidas.
 
 [Volver al contenido](#contenido)
 
@@ -78,1041 +73,600 @@ Analizar la dinámica de un sistema biológico de tres poblaciones celulares med
 <a id="modelo"></a>
 ## Modelo matemático
 
-La dinámica de las tres poblaciones celulares se describe mediante el siguiente sistema de ecuaciones diferenciales ordinarias no lineales de primer orden:
+El modelo matemático que describe la dinámica entre tres poblaciones celulares está dado por el siguiente sistema de ecuaciones diferenciales ordinarias no lineales de primer orden:
 
-\[
-\frac{dx}{dt}
-=
-r_1x(1-b_1x)-a_{12}xy-a_{13}xz,
-\]
+$$
+\frac{dx}{dt}=r_1x(1-b_1x)-a_{12}xy-a_{13}xz,
+$$
 
-\[
-\frac{dy}{dt}
-=
-r_2y(1-b_2y)-a_{21}xy,
-\]
+$$
+\frac{dy}{dt}=r_2y(1-b_2y)-a_{21}xy,
+$$
 
-\[
-\frac{dz}{dt}
-=
-(r_3-a_{31})xz-d_3z+\rho.
-\]
+$$
+\frac{dz}{dt}=(r_3-a_{31})xz-d_3z+\rho.
+$$
 
-Se considera que todos los parámetros son positivos, que las condiciones iniciales son no negativas y que el parámetro de control satisface \(\rho>0\).
+Se considera que los parámetros son positivos, que las condiciones iniciales son no negativas y que el parámetro de control cumple $\rho>0$.
 
-En forma vectorial, el sistema se expresa como
+El sistema puede expresarse en forma vectorial como
 
-\[
-\dot{\boldsymbol{\phi}}
-=
-\mathbf{F}(\boldsymbol{\phi}),
+$$
+\dot{\mathbf{X}}=\mathbf{F}(\mathbf{X}),
 \qquad
-\boldsymbol{\phi}
-=
+\mathbf{X}=
 \begin{bmatrix}
-x&y&z
-\end{bmatrix}^{T}.
-\]
+x\\y\\z
+\end{bmatrix}.
+$$
 
-Las variables y parámetros se interpretan de la siguiente manera:
+Las variables de estado son:
 
-| Símbolo | Descripción |
+| Variable | Descripción en el modelo |
 |---|---|
-| \(x(t)\) | Población de células patológicas, cuya eliminación es el objetivo del análisis |
-| \(y(t)\) | Segunda población celular |
-| \(z(t)\) | Tercera población celular |
-| \(r_1,r_2\) | Parámetros de crecimiento de las poblaciones \(x\) y \(y\) |
-| \(b_1,b_2\) | Parámetros asociados con la limitación del crecimiento de las poblaciones \(x\) y \(y\) |
-| \(a_{12},a_{13}\) | Parámetros de interacción que reducen el crecimiento de la población \(x\) |
-| \(a_{21}\) | Parámetro de interacción que reduce el crecimiento de la población \(y\) |
-| \(r_3\) | Parámetro asociado con la dinámica de la población \(z\) |
-| \(a_{31}\) | Parámetro de interacción asociado con la población \(x\) en la ecuación de \(z\) |
-| \(d_3\) | Parámetro de eliminación o decaimiento de la población \(z\) |
-| \(\rho\) | Parámetro de control positivo que interviene en la dinámica de \(z\) |
+| $x(t)$ | Población de células patológicas cuya eliminación se busca |
+| $y(t)$ | Segunda población celular |
+| $z(t)$ | Tercera población celular, asociada al término de control $\rho$ |
 
-La variable \(x(t)\) representa la población que se desea controlar y llevar a cero. Por ello, una parte central del análisis consiste en determinar qué condiciones sobre \(\rho\) permiten que dicha población desaparezca.
+Los parámetros del modelo son:
+
+| Parámetro | Función en el sistema |
+|---|---|
+| $r_1$ | Tasa de crecimiento de la población $x$ |
+| $r_2$ | Tasa de crecimiento de la población $y$ |
+| $r_3$ | Coeficiente de interacción de $x$ y $z$ en la ecuación de $z$ |
+| $b_1$ | Coeficiente de saturación o limitación de la población $x$ |
+| $b_2$ | Coeficiente de saturación o limitación de la población $y$ |
+| $a_{12}$ | Coeficiente de interacción entre $x$ y $y$ en la ecuación de $x$ |
+| $a_{13}$ | Coeficiente de interacción entre $x$ y $z$ en la ecuación de $x$ |
+| $a_{21}$ | Coeficiente de interacción entre $x$ y $y$ en la ecuación de $y$ |
+| $a_{31}$ | Coeficiente que modifica la interacción entre $x$ y $z$ |
+| $d_3$ | Tasa de disminución de la población $z$ |
+| $\rho$ | Parámetro de control positivo |
 
 [Volver al contenido](#contenido)
 
 ---
 
+<a id="analisis"></a>
+## Análisis matemático
+
 <a id="positividad"></a>
-## Positividad e invariancia del sistema
+### 1. Positividad e invariancia del sistema
 
-El significado biológico de las variables requiere que las poblaciones celulares permanezcan no negativas. Para analizar esta propiedad, se evalúa el campo vectorial sobre las fronteras del octante no negativo.
+Debido a que las variables representan poblaciones celulares, el modelo requiere soluciones no negativas. Para examinar la invariancia del octante no negativo se evalúa el campo vectorial sobre las fronteras $x=0$, $y=0$ y $z=0$.
 
-Cuando \(x=0\),
+Para la primera ecuación:
 
-\[
-\left.\dot{x}\right|_{x=0}
-=
-r_1(0)(1-b_1(0))-a_{12}(0)y-a_{13}(0)z
-=0.
-\]
+$$
+\left.\dot{x}\right|_{x=0}=0.
+$$
 
-Cuando \(y=0\),
+Para la segunda ecuación:
 
-\[
-\left.\dot{y}\right|_{y=0}
-=
-r_2(0)(1-b_2(0))-a_{21}x(0)
-=0.
-\]
+$$
+\left.\dot{y}\right|_{y=0}=0.
+$$
 
-Cuando \(z=0\),
+Para la tercera ecuación:
 
-\[
-\left.\dot{z}\right|_{z=0}
-=
-(r_3-a_{31})x+\rho.
-\]
+$$
+\left.\dot{z}\right|_{z=0}=(r_3-a_{31})x+\rho.
+$$
 
-Para que esta expresión sea no negativa para todo \(x\geq0\), se requiere, por ejemplo, que
+Por tanto, la condición sobre la frontera $z=0$ es no negativa si, por ejemplo, $r_3\geq a_{31}$, dado que $x\geq0$ y $\rho>0$. Bajo esta condición, las tres fronteras apuntan hacia el interior o son tangentes al octante no negativo.
 
-\[
-r_3-a_{31}\geq0,
-\]
+El dominio de interés se define como
 
-dado que \(\rho>0\). El documento fuente simplifica esta evaluación a \(\rho\), pero esa simplificación no se cumple para un valor general de \(x\) a menos que \(x=0\) o \(r_3=a_{31}\). Por ello, la demostración de positividad en todo el octante requiere explicitar una condición adicional sobre los parámetros o el dominio.
-
-Bajo la condición \(r_3\geq a_{31}\), el campo vectorial no apunta hacia el exterior del dominio no negativo en sus fronteras.
-
-Se define el octante no negativo como
-
-\[
+$$
 \mathbb{R}_{+,0}^{3}
 =
 \left\{
-(x,y,z)\in\mathbb{R}^{3}
-\mid x\geq0,\;y\geq0,\;z\geq0
+(x,y,z)\in\mathbb{R}^{3}:
+x\geq0,\ y\geq0,\ z\geq0
 \right\}.
-\]
+$$
 
-**Resultado: Positividad e invariancia en el octante no negativo.**
+**Resultado — Positividad e invariancia.** Si el campo vectorial satisface las condiciones de frontera anteriores y las condiciones iniciales pertenecen a $\mathbb{R}_{+,0}^{3}$, entonces el octante no negativo es positivamente invariante: las soluciones permanecen en dicho dominio para todo tiempo en el que estén definidas.
 
-Sea
-
-\[
-\boldsymbol{\phi}(t)
-=
-(x(t),y(t),z(t))^{T}
-\]
-
-una solución del sistema con condiciones iniciales no negativas, es decir,
-
-\[
-\boldsymbol{\phi}(t_0)\in\mathbb{R}_{+,0}^{3}.
-\]
-
-Entonces, el octante no negativo es positivamente invariante y las soluciones satisfacen
-
-\[
-\boldsymbol{\phi}(t)\in\mathbb{R}_{+,0}^{3},
-\qquad t\geq t_0.
-\]
-
-Esto significa que, si las poblaciones comienzan con valores no negativos, el modelo conserva esa propiedad durante su evolución temporal.
+> **Nota sobre la condición de positividad:** al sustituir $z=0$ en la tercera ecuación, los términos que contienen $z$ se anulan y queda $\left.\dot z\right|_{z=0}=\rho>0$. Por tanto, la frontera $z=0$ apunta hacia el interior del octante no negativo. Junto con las evaluaciones en $x=0$ y $y=0$, esto respalda la invariancia positiva del dominio para condiciones iniciales no negativas.
 
 [Volver al contenido](#contenido)
 
 ---
 
 <a id="equilibrios"></a>
-## Puntos de equilibrio libres de células patológicas
+### 2. Puntos de equilibrio libres de células patológicas
 
-Con el objetivo de determinar condiciones para eliminar las células patológicas, se buscan los puntos de equilibrio en los que
+El objetivo es determinar los equilibrios en los que la población patológica desaparece, es decir, aquellos para los cuales $x=0$.
 
-\[
-x^*=0.
-\]
+Los puntos de equilibrio se obtienen igualando a cero las tres derivadas:
 
-Los puntos de equilibrio se obtienen igualando a cero las tres ecuaciones del sistema:
-
-\[
+$$
 r_1x(1-b_1x)-a_{12}xy-a_{13}xz=0,
-\]
+$$
 
-\[
+$$
 r_2y(1-b_2y)-a_{21}xy=0,
-\]
+$$
 
-\[
+$$
 (r_3-a_{31})xz-d_3z+\rho=0.
-\]
+$$
 
-Al establecer \(x=0\), el sistema se reduce a
+Al imponer $x=0$, el sistema se reduce a
 
-\[
-x^*=0,
-\]
-
-\[
-r_2y(1-b_2y)=0,
-\]
-
-\[
--d_3z+\rho=0.
-\]
-
-Despejando las variables de estado se obtiene
-
-\[
-x^*=0,
+$$
+x=0,
 \qquad
-z^*=\frac{\rho}{d_3}.
-\]
+r_2y(1-b_2y)=0,
+\qquad
+-d_3z+\rho=0.
+$$
 
-La ecuación correspondiente a \(y\) puede escribirse como
+De la segunda ecuación se obtienen dos posibilidades:
 
-\[
-y(1-b_2y)=0.
-\]
-
-Por lo tanto, existen dos soluciones:
-
-\[
+$$
 y_0^*=0,
 \qquad
 y_1^*=\frac{1}{b_2}.
-\]
+$$
 
-De esta manera, se obtienen dos puntos de equilibrio libres de células patológicas:
+De la tercera ecuación:
 
-**Equilibrio 1:**
+$$
+z^*=\frac{\rho}{d_3}.
+$$
 
-\[
+Por consiguiente, los dos equilibrios libres de células patológicas son
+
+$$
 E_0=
-\left(
-0,\;0,\;\frac{\rho}{d_3}
-\right).
-\]
+\left(0,0,\frac{\rho}{d_3}\right),
+$$
 
-**Equilibrio 2:**
+y
 
-\[
+$$
 E_1=
-\left(
-0,\;\frac{1}{b_2},\;\frac{\rho}{d_3}
-\right).
-\]
+\left(0,\frac{1}{b_2},\frac{\rho}{d_3}\right).
+$$
 
-El equilibrio \(E_1\) representa la ausencia de células patológicas y la presencia de las otras dos poblaciones en sus respectivos valores de equilibrio. Este punto es el principal objeto de interés para el análisis de estabilidad y eliminación.
+El equilibrio $E_0$ representa la ausencia de las tres poblaciones salvo el nivel de equilibrio impuesto por el parámetro de control en $z$. El equilibrio $E_1$ representa la eliminación de la población $x$, mientras que la población $y$ alcanza su nivel de saturación $1/b_2$ y la variable $z$ alcanza $\rho/d_3$.
 
 [Volver al contenido](#contenido)
 
 ---
 
-<a id="estabilidad-local"></a>
-## Estabilidad asintótica local
+<a id="estabilidad"></a>
+### 3. Estabilidad asintótica local
 
-Para analizar la estabilidad local de los puntos de equilibrio, se construye la matriz Jacobiana del sistema.
+Para estudiar la estabilidad local de los puntos de equilibrio se calcula la matriz Jacobiana del sistema.
 
-### 1. Matriz Jacobiana
-
-La matriz Jacobiana se define como
-
-\[
+$$
 J(x,y,z)=
 \begin{bmatrix}
-\dfrac{\partial \dot{x}}{\partial x}
-&
-\dfrac{\partial \dot{x}}{\partial y}
-&
-\dfrac{\partial \dot{x}}{\partial z}
-\\[6pt]
-\dfrac{\partial \dot{y}}{\partial x}
-&
-\dfrac{\partial \dot{y}}{\partial y}
-&
-\dfrac{\partial \dot{y}}{\partial z}
-\\[6pt]
-\dfrac{\partial \dot{z}}{\partial x}
-&
-\dfrac{\partial \dot{z}}{\partial y}
-&
-\dfrac{\partial \dot{z}}{\partial z}
+r_1-a_{12}y-a_{13}z-2b_1r_1x & -a_{12}x & -a_{13}x\\
+-a_{21}y & r_2-a_{21}x-2b_2r_2y & 0\\
+(r_3-a_{31})z & 0 & (r_3-a_{31})x-d_3
 \end{bmatrix}.
-\]
+$$
 
-Al calcular las derivadas parciales se obtiene
+#### 3.1 Estabilidad del equilibrio $E_1$
 
-\[
-J(x,y,z)=
-\begin{bmatrix}
-r_1-a_{12}y-a_{13}z-2b_1r_1x
-&
--a_{12}x
-&
--a_{13}x
-\\
--a_{21}y
-&
-r_2-a_{21}x-2b_2r_2y
-&
-0
-\\
-(r_3-a_{31})z
-&
-0
-&
-(r_3-a_{31})x-d_3
-\end{bmatrix}.
-\]
+Se evalúa la Jacobiana en
 
-### 2. Estabilidad del equilibrio \(E_1\)
-
-Se considera el equilibrio
-
-\[
+$$
 E_1=
-\left(
-0,\frac{1}{b_2},\frac{\rho}{d_3}
-\right).
-\]
+\left(0,\frac{1}{b_2},\frac{\rho}{d_3}\right).
+$$
 
-Al evaluar la matriz Jacobiana en este punto se obtiene
+La matriz resultante es
 
-\[
+$$
 J(E_1)=
 \begin{bmatrix}
-r_1-\dfrac{a_{12}}{b_2}-\dfrac{a_{13}\rho}{d_3}
-&
-0
-&
-0
-\\[8pt]
--\dfrac{a_{21}}{b_2}
-&
--r_2
-&
-0
-\\[8pt]
-\dfrac{\rho}{d_3}(r_3-a_{31})
-&
-0
-&
--d_3
+r_1-\dfrac{a_{12}}{b_2}-\dfrac{a_{13}\rho}{d_3} & 0 & 0\\
+-\dfrac{a_{21}}{b_2} & -r_2 & 0\\
+\dfrac{\rho}{d_3}(r_3-a_{31}) & 0 & -d_3
 \end{bmatrix}.
-\]
+$$
 
-La matriz resultante es triangular inferior. Por esta razón, sus valores propios corresponden a los elementos de su diagonal:
+La matriz es triangular inferior, por lo que sus valores propios corresponden a los elementos de su diagonal:
 
-\[
-\lambda_1
-=
+$$
+\lambda_1=
 r_1-\frac{a_{12}}{b_2}-\frac{a_{13}\rho}{d_3},
-\]
+$$
 
-\[
+$$
 \lambda_2=-r_2,
 \qquad
 \lambda_3=-d_3.
-\]
+$$
 
-Como los parámetros son positivos,
+Como los parámetros $r_2$ y $d_3$ son positivos, se tiene $\lambda_2<0$ y $\lambda_3<0$. Para que el tercer equilibrio sea localmente asintóticamente estable también se requiere $\lambda_1<0$:
 
-\[
-\lambda_2<0,
-\qquad
-\lambda_3<0.
-\]
-
-Para que el equilibrio sea local asintóticamente estable, también se requiere que \(\lambda_1<0\). Por lo tanto,
-
-\[
-r_1-\frac{a_{12}}{b_2}
--\frac{a_{13}\rho}{d_3}<0.
-\]
+$$
+r_1-\frac{a_{12}}{b_2}-\frac{a_{13}\rho}{d_3}<0.
+$$
 
 Despejando el parámetro de control:
 
-\[
-\boxed{
+$$
 \rho>
 \frac{d_3}{a_{13}}
 \left(
 r_1-\frac{a_{12}}{b_2}
-\right)
-}
-\]
+\right).
+$$
 
-**Resultado: Condición de eliminación local de células patológicas.**
+**Resultado — Condición de eliminación local.** Si se satisface la desigualdad anterior, entonces el equilibrio $E_1$ es localmente asintóticamente estable. En consecuencia, las condiciones iniciales suficientemente cercanas a este equilibrio convergen hacia un estado con $x=0$.
 
-Si se satisface la condición
+**Resultado complementario — Persistencia local.** Si
 
-\[
-\rho>
-\frac{d_3}{a_{13}}
-\left(
-r_1-\frac{a_{12}}{b_2}
-\right),
-\]
-
-entonces el equilibrio libre de células patológicas
-
-\[
-E_1=
-\left(
-0,\frac{1}{b_2},\frac{\rho}{d_3}
-\right)
-\]
-
-es local asintóticamente estable. En consecuencia, una población inicial de células patológicas suficientemente cercana al equilibrio puede converger hacia cero.
-
-### 3. Condición de persistencia
-
-De manera complementaria, si
-
-\[
+$$
 \rho<
 \frac{d_3}{a_{13}}
 \left(
 r_1-\frac{a_{12}}{b_2}
 \right),
-\]
+$$
 
-el equilibrio \(E_1\) deja de satisfacer la condición de estabilidad asintótica local. El material de la práctica establece que, bajo esta condición, se observará persistencia de la población de células patológicas en las soluciones y trayectorias del sistema.
+entonces $\lambda_1>0$ y el equilibrio $E_1$ es inestable. Esto permite que la población patológica persista para condiciones iniciales cercanas al equilibrio, aunque por sí solo no demuestra persistencia para todas las condiciones iniciales.
 
-### 4. Estabilidad del equilibrio \(E_0\)
+#### 3.2 Estabilidad del equilibrio $E_0$
 
-Como actividad complementaria, se analiza el equilibrio
+Para el equilibrio
 
-\[
+$$
 E_0=
-\left(
-0,0,\frac{\rho}{d_3}
-\right).
-\]
+\left(0,0,\frac{\rho}{d_3}\right),
+$$
 
-Al evaluar la matriz Jacobiana en este punto se obtiene
+la matriz Jacobiana evaluada es
 
-\[
+$$
 J(E_0)=
 \begin{bmatrix}
-r_1-\dfrac{a_{13}\rho}{d_3}
-&
-0
-&
-0
-\\[8pt]
-0
-&
-r_2
-&
-0
-\\[8pt]
-\dfrac{\rho}{d_3}(r_3-a_{31})
-&
-0
-&
--d_3
+r_1-\dfrac{a_{13}\rho}{d_3} & 0 & 0\\
+0 & r_2 & 0\\
+\dfrac{\rho}{d_3}(r_3-a_{31}) & 0 & -d_3
 \end{bmatrix}.
-\]
+$$
 
-La matriz también es triangular, por lo que sus valores propios son
+Al ser triangular, sus valores propios son
 
-\[
+$$
 \lambda_1=r_1-\frac{a_{13}\rho}{d_3},
-\]
-
-\[
+\qquad
 \lambda_2=r_2,
 \qquad
 \lambda_3=-d_3.
-\]
+$$
 
-El primer valor propio es negativo si
+Se observa que $\lambda_2>0$ y $\lambda_3<0$. Además, $\lambda_1<0$ cuando
 
-\[
+$$
 \rho>\frac{r_1d_3}{a_{13}}.
-\]
+$$
 
-Sin embargo, como \(r_2>0\), se tiene
-
-\[
-\lambda_2>0,
-\qquad
-\lambda_3<0.
-\]
-
-Por lo tanto, incluso cuando \(\lambda_1<0\), el equilibrio \(E_0\) conserva un valor propio positivo y uno negativo. En consecuencia, es un **punto silla** y no es local asintóticamente estable.
+Aun cuando se cumpla esta última condición, existe un valor propio positivo ($\lambda_2=r_2$) y otro negativo ($\lambda_3=-d_3$). Por lo tanto, $E_0$ es un **punto silla** y no es localmente asintóticamente estable.
 
 [Volver al contenido](#contenido)
 
 ---
 
-<a id="conjuntos"></a>
-## Conjuntos compactos invariantes
+<a id="compactos"></a>
+### 4. Conjuntos compactos invariantes
 
-Para estudiar el dominio en el que se localizan las soluciones del sistema, se proponen funciones localizadoras que permiten establecer límites inferiores y superiores para las variables de estado \(x(t)\), \(y(t)\) y \(z(t)\).
+Para estudiar el dominio en el que se localiza la dinámica del sistema se buscan límites inferiores y superiores para las variables $x(t)$, $y(t)$ y $z(t)$.
 
-Debido a la positividad del sistema, las soluciones con condiciones iniciales no negativas permanecen en
+El dominio biológicamente relevante es el octante no negativo:
 
-\[
+$$
 \mathbb{R}_{+,0}^{3}
 =
 \left\{
-(x,y,z)\in\mathbb{R}^{3}
-\mid x,y,z\geq0
+(x,y,z)\in\mathbb{R}^{3}:
+x,y,z\geq0
 \right\}.
-\]
+$$
 
-### 1. Límites de la variable \(x(t)\)
+#### 4.1 Límite de la variable $x(t)$
 
 Se propone la función localizadora
 
-\[
+$$
 h_1=x.
-\]
+$$
 
-Su derivada de Lie está dada por
+Su derivada a lo largo de las trayectorias es
 
-\[
-L_fh_1
-=
-\frac{dx}{dt}
-=
+$$
+\dot{h}_1=
 r_1x(1-b_1x)-a_{12}xy-a_{13}xz.
-\]
+$$
 
-Se define el conjunto
+Al igualar a cero:
 
-\[
-S(h_1)=\{L_fh_1=0\}.
-\]
+$$
+x(r_1-b_1r_1x-a_{12}y-a_{13}z)=0.
+$$
 
-Al factorizar la variable \(x\):
+De aquí se identifica la frontera $x=0$, que establece el límite inferior
 
-\[
-S(h_1)
-=
-\left\{
-r_1-b_1r_1x-a_{12}y-a_{13}z=0
-\right\}
-\cup
-\{x=0\}.
-\]
+$$
+x(t)\geq0.
+$$
 
-De esta expresión se identifica el límite inferior
+La otra superficie puede despejarse como
 
-\[
-x(t)\geq x_{\mathrm{inf}}=0.
-\]
-
-Además, el plano \(x=0\) es invariante: las trayectorias que se encuentran en dicho plano no lo atraviesan hacia valores negativos.
-
-Para obtener una expresión del límite superior, se despeja \(x\):
-
-\[
+$$
 x=
 \frac{1}{b_1}
--
-\frac{a_{12}}{b_1r_1}y
--
-\frac{a_{13}}{b_1r_1}z.
-\]
+-\frac{a_{12}}{b_1r_1}y
+-\frac{a_{13}}{b_1r_1}z.
+$$
 
-Definiendo
+Como $y,z\geq0$, se obtiene la cota
 
-\[
-f(y,z)
-=
-\frac{a_{12}}{b_1r_1}y
-+
-\frac{a_{13}}{b_1r_1}z,
-\]
+$$
+0\leq x(t)\leq\frac{1}{b_1}.
+$$
 
-se obtiene
+#### 4.2 Límite de la variable $y(t)$
 
-\[
-S(h_1)
-=
-\left\{
-x=\frac{1}{b_1}-f(y,z)
-\right\}
-\cup
-\{x=0\}.
-\]
+Se propone
 
-Por lo tanto, el material establece el siguiente conjunto de límites para \(x(t)\):
-
-\[
-\boxed{
-K_x=
-\left\{
-0\leq x(t)\leq\frac{1}{b_1}
-\right\}.
-}
-\]
-
-### 2. Límites de la variable \(y(t)\)
-
-Para la segunda variable se propone
-
-\[
+$$
 h_2=y.
-\]
+$$
 
-Su derivada de Lie es
+Su derivada es
 
-\[
-L_fh_2
-=
-\frac{dy}{dt}
-=
+$$
+\dot{h}_2=
 r_2y(1-b_2y)-a_{21}xy.
-\]
+$$
 
-Se define
+Al factorizar:
 
-\[
-S(h_2)=\{L_fh_2=0\}.
-\]
+$$
+y(r_2-b_2r_2y-a_{21}x)=0.
+$$
 
-Factorizando \(y\):
+La frontera $y=0$ proporciona el límite inferior. Despejando la otra superficie:
 
-\[
-S(h_2)
-=
-\{r_2-b_2r_2y-a_{21}x=0\}
-\cup
-\{y=0\}.
-\]
-
-Despejando \(y\):
-
-\[
+$$
 y=
 \frac{1}{b_2}
--
-\frac{a_{21}}{b_2r_2}x.
-\]
+-\frac{a_{21}}{b_2r_2}x.
+$$
 
-Si se define
+Dado que $x\geq0$, se obtiene
 
-\[
-f(x)=\frac{a_{21}}{b_2r_2}x,
-\]
+$$
+0\leq y(t)\leq\frac{1}{b_2}.
+$$
 
-entonces
+#### 4.3 Límite inferior de la variable $z(t)$
 
-\[
-S(h_2)
-=
-\left\{
-y=\frac{1}{b_2}-f(x)
-\right\}
-\cup
-\{y=0\}.
-\]
+Se propone
 
-De esta manera, se establece el conjunto
-
-\[
-\boxed{
-K_y=
-\left\{
-0\leq y(t)\leq\frac{1}{b_2}
-\right\}.
-}
-\]
-
-### 3. Límite inferior de la variable \(z(t)\)
-
-Para la tercera variable se propone
-
-\[
+$$
 h_3=z.
-\]
+$$
 
-Su derivada de Lie es
+Su derivada es
 
-\[
-L_fh_3
-=
-\frac{dz}{dt}
-=
+$$
+\dot{h}_3=
 (r_3-a_{31})xz-d_3z+\rho.
-\]
+$$
 
-Se define el conjunto
+Al igualar a cero y despejar $z$:
 
-\[
-S(h_3)=\{L_fh_3=0\}.
-\]
-
-Al despejar \(z\), se obtiene
-
-\[
+$$
 z=
 \frac{\rho}{d_3}
 +
 \frac{r_3-a_{31}}{d_3}xz.
-\]
+$$
 
-Si se cumple la condición
+Si se cumple $r_3-a_{31}>0$, el término adicional es no negativo para $x,z\geq0$. De acuerdo con el desarrollo de la práctica, se propone entonces el límite inferior
 
-\[
-r_3-a_{31}>0,
-\]
+$$
+z(t)\geq\frac{\rho}{d_3}.
+$$
 
-se puede establecer el límite inferior
+**Conjunto de cotas propuesto.** Las regiones de localización consideradas son
 
-\[
-\boxed{
+$$
+K_x=
+\left\{
+0\leq x(t)\leq\frac{1}{b_1}
+\right\},
+$$
+
+$$
+K_y=
+\left\{
+0\leq y(t)\leq\frac{1}{b_2}
+\right\},
+$$
+
+$$
 K_z=
 \left\{
 z(t)\geq\frac{\rho}{d_3}
 \right\}.
-}
-\]
+$$
 
-### 4. Dominio conjunto
-
-Los conjuntos obtenidos para las tres variables permiten definir el dominio de análisis mediante la intersección
-
-\[
-K=K_x\cap K_y\cap K_z.
-\]
-
-De acuerdo con los límites establecidos en el material de la práctica:
-
-\[
-0\leq x(t)\leq\frac{1}{b_1},
-\]
-
-\[
-0\leq y(t)\leq\frac{1}{b_2},
-\]
-
-\[
-z(t)\geq\frac{\rho}{d_3}.
-\]
-
-Estos límites se utilizan posteriormente para evaluar la función candidata de Lyapunov y establecer condiciones de eliminación de células patológicas.
+> **Consideración sobre las cotas:** las superficies donde las derivadas se anulan permiten identificar fronteras candidatas. Para afirmar que las cotas superiores son válidas desde todo instante, deben verificarse las condiciones iniciales y la dirección del campo vectorial sobre esas fronteras. En particular, $x\leq1/b_1$ y $y\leq1/b_2$ son cotas naturales del análisis cuando las trayectorias parten dentro de esos límites; no se deduce que cualquier condición inicial mayor quede instantáneamente dentro de ellos.
 
 [Volver al contenido](#contenido)
 
 ---
 
-<a id="estabilidad-global"></a>
-## Estabilidad asintótica global: condiciones de eliminación
+<a id="lyapunov"></a>
+### 5. Estabilidad asintótica global: condiciones de eliminación
 
-Para establecer condiciones de eliminación de la población de células patológicas se aplica el método directo de Lyapunov.
+Para establecer condiciones de eliminación de la población de células patológicas se propone la función candidata de Lyapunov
 
-La variable que se desea controlar es \(x(t)\), por lo que se propone la siguiente función candidata:
+$$
+V(x)=x.
+$$
 
-\[
-\boxed{V(x)=x.}
-\]
+La elección se debe a que la variable que se desea controlar es $x(t)$; llevarla a cero representa la eliminación de la población patológica.
 
-La elección de esta función responde a que el objetivo del análisis es llevar la población patológica al origen, es decir,
+En el dominio no negativo:
 
-\[
-x(t)\longrightarrow0.
-\]
-
-### 1. Condiciones de una función candidata de Lyapunov
-
-Para aplicar el método directo de Lyapunov se consideran las siguientes propiedades:
-
-**1. Definida positiva.**
-
-Una función es definida positiva respecto al origen si
-
-\[
-V(0)=0,
+$$
+V(x)\geq0,
 \qquad
-V(x)>0\quad\text{para }x>0.
-\]
+V(0)=0.
+$$
 
-En este caso, \(V(x)=x\) satisface esta propiedad en el dominio no negativo.
+La derivada temporal de la función candidata es
 
-**2. Radialmente desacotada.**
+$$
+\dot{V}=\dot{x}
+=r_1x(1-b_1x)-a_{12}xy-a_{13}xz.
+$$
 
-Una función es radialmente desacotada si
+Factorizando $x$:
 
-\[
-V(x)\longrightarrow\infty
-\quad\text{cuando}\quad
-\|x\|\longrightarrow\infty.
-\]
-
-Esta propiedad permite relacionar el crecimiento de la función con la distancia respecto al origen.
-
-**3. Derivada temporal semidefinida negativa o definida negativa.**
-
-La derivada temporal de la función candidata debe ser, preferentemente, definida negativa. Es semidefinida negativa cuando
-
-\[
-\dot V(x)\leq0,
-\]
-
-y definida negativa cuando
-
-\[
-\dot V(x)<0
-\quad\text{para }x>0,
-\qquad
-\dot V(0)=0.
-\]
-
-**4. Principio de invariancia de LaSalle.**
-
-Cuando la derivada temporal es semidefinida negativa, se garantiza que la función candidata no aumenta a lo largo de las trayectorias. Para establecer condiciones de estabilidad asintótica se puede aplicar el principio de invariancia de LaSalle, que permite analizar el comportamiento de las trayectorias dentro del conjunto donde
-
-\[
-\dot V=0.
-\]
-
-### 2. Derivada temporal de la función candidata
-
-Dado que
-
-\[
-V(x)=x,
-\]
-
-su derivada temporal es
-
-\[
-\dot V
-=
-\frac{dV}{dt}
-=
-\frac{dx}{dt}.
-\]
-
-Sustituyendo la primera ecuación del sistema:
-
-\[
-\dot V
-=
-r_1x(1-b_1x)-a_{12}xy-a_{13}xz.
-\]
-
-Factorizando:
-
-\[
-\dot V
+$$
+\dot{V}
 =
 (r_1-b_1r_1x-a_{12}y-a_{13}z)x.
-\]
+$$
 
-### 3. Evaluación mediante los límites invariantes
+Al evaluar sobre las cotas propuestas para el sistema, en particular $x_{\inf}=0$, $y_{\inf}=0$ y $z_{\inf}=\rho/d_3$, se obtiene la estimación
 
-Se evalúa la expresión anterior utilizando los límites establecidos para las variables:
-
-\[
-x_{\mathrm{inf}}=0,
-\qquad
-y_{\mathrm{inf}}=0,
-\qquad
-z_{\mathrm{inf}}=\frac{\rho}{d_3}.
-\]
-
-Por lo tanto,
-
-\[
-\dot V
+$$
+\dot{V}
 \leq
-\left(
-r_1-b_1r_1x_{\mathrm{inf}}
--a_{12}y_{\mathrm{inf}}
--a_{13}z_{\mathrm{inf}}
-\right)x.
-\]
+\left(r_1-\frac{a_{13}\rho}{d_3}\right)x.
+$$
 
-Sustituyendo los límites inferiores:
+Para que la derivada sea no positiva se requiere
 
-\[
-\dot V
-\leq
-\left(
-r_1-\frac{a_{13}\rho}{d_3}
-\right)x.
-\]
+$$
+r_1-\frac{a_{13}\rho}{d_3}\leq0.
+$$
 
-Para que la derivada sea negativa cuando \(x>0\), se requiere
+Una condición suficiente estricta es
 
-\[
-r_1-\frac{a_{13}\rho}{d_3}<0.
-\]
-
-Despejando el parámetro de control:
-
-\[
-\boxed{
+$$
 \rho>\frac{r_1d_3}{a_{13}}.
-}
-\]
+$$
 
-### 4. Condición global de eliminación
+**Resultado — Condición de eliminación global.** Bajo las hipótesis de positividad, acotamiento e invariancia utilizadas en el análisis, si
 
-**Resultado: Condición de eliminación.**
+$$
+\boxed{\rho>\frac{r_1d_3}{a_{13}}},
+$$
 
-Si se satisface la condición
+entonces la derivada de la función candidata es negativa para $x>0$ dentro del conjunto considerado. Esto permite concluir que la población de células patológicas disminuye y converge a cero. El equilibrio límite indicado en el desarrollo es
 
-\[
-\boxed{
-\rho>\frac{r_1d_3}{a_{13}},
-}
-\]
-
-entonces, de acuerdo con el análisis de Lyapunov presentado en la práctica, la población de células patológicas se eliminará para cualquier condición inicial positiva. Además, las trayectorias convergerán al equilibrio
-
-\[
-\boxed{
+$$
 E_1=
-\left(
-0,\frac{1}{b_2},\frac{\rho}{d_3}
-\right).
-}
-\]
+\left(0,\frac{1}{b_2},\frac{\rho}{d_3}\right).
+$$
 
-Esta condición establece un umbral para el parámetro de control \(\rho\). Cuando dicho parámetro supera el umbral, se obtiene una condición suficiente para la eliminación de la población patológica.
+Cuando la derivada de Lyapunov es únicamente semidefinida negativa, el principio de invariancia de LaSalle permite analizar el conjunto donde $\dot V=0$ para establecer la convergencia asintótica, siempre que se satisfagan sus hipótesis.
+
+> **Alcance de la conclusión:** la función $V=x$ es positiva definida respecto de la variable objetivo $x$, pero no es radialmente no acotada respecto del vector completo $(x,y,z)$. Por ello, una demostración rigurosa de estabilidad global del equilibrio tridimensional requiere justificar por separado la acotación e invariancia del conjunto, así como aplicar el principio de LaSalle al conjunto donde $\dot V=0$. La desigualdad de control anterior se presenta como la condición suficiente obtenida en el desarrollo de la práctica.
 
 [Volver al contenido](#contenido)
 
 ---
 
 <a id="actividades"></a>
-## Actividades de la práctica
+## Actividades y desarrollo de la práctica
 
-Las actividades se organizan de acuerdo con los apartados del desarrollo matemático proporcionado.
+El desarrollo proporcionado para esta práctica se organiza alrededor de los siguientes análisis matemáticos:
 
 ### 1. Modelo matemático
 
-- Identificar las tres variables de estado y los parámetros del sistema.
-- Interpretar el significado de cada término de las ecuaciones diferenciales.
-- Identificar la población que se desea controlar y el parámetro de control.
+- Identificación de las tres variables de estado.
+- Interpretación de los parámetros positivos.
+- Incorporación del parámetro de control $\rho$.
+- Formulación del sistema de ecuaciones diferenciales.
 
 ### 2. Positividad del sistema
 
-- Evaluar el campo vectorial en las fronteras \(x=0\), \(y=0\) y \(z=0\).
-- Establecer las condiciones que garantizan que las soluciones permanezcan en el octante no negativo.
-- Explicar el significado de la invariancia positiva en el contexto biológico.
+- Evaluación del campo vectorial sobre las fronteras $x=0$, $y=0$ y $z=0$.
+- Definición del octante no negativo.
+- Establecimiento de las condiciones para la invariancia positiva.
 
 ### 3. Puntos de equilibrio libres de células patológicas
 
-- Igualar a cero las tres ecuaciones del sistema.
-- Establecer \(x=0\).
-- Resolver las ecuaciones restantes para obtener los valores de equilibrio de \(y\) y \(z\).
-- Identificar y describir los dos puntos de equilibrio obtenidos.
+- Imposición de la condición $x=0$.
+- Resolución de las ecuaciones restantes.
+- Obtención de $E_0$ y $E_1$.
 
 ### 4. Estabilidad asintótica local
 
-- Calcular la matriz Jacobiana del sistema.
-- Evaluar la matriz Jacobiana en el equilibrio \(E_1\).
-- Obtener los valores propios de la matriz resultante.
-- Determinar la condición sobre \(\rho\) para garantizar estabilidad asintótica local.
-- Analizar la condición complementaria asociada con la persistencia de células patológicas.
+- Cálculo de la matriz Jacobiana.
+- Evaluación de la Jacobiana en $E_1$.
+- Obtención de los valores propios.
+- Determinación de la condición local sobre $\rho$.
+- Análisis de estabilidad del equilibrio $E_0$.
 
-### 5. Estabilidad del equilibrio en el origen de la población patológica
+### 5. Conjuntos compactos invariantes
 
-- Evaluar la matriz Jacobiana en
+- Selección de funciones localizadoras $h_1=x$, $h_2=y$ y $h_3=z$.
+- Cálculo de las derivadas a lo largo de las trayectorias.
+- Identificación de límites inferiores y superiores.
+- Construcción de la región de localización del sistema.
 
-\[
-E_0=\left(0,0,\frac{\rho}{d_3}\right).
-\]
+### 6. Estabilidad asintótica global
 
-- Calcular los valores propios.
-- Determinar las condiciones de signo de cada valor propio.
-- Clasificar el equilibrio y explicar por qué no es local asintóticamente estable.
-
-### 6. Conjuntos compactos invariantes
-
-- Proponer la función localizadora \(h_1=x\).
-- Calcular su derivada de Lie y determinar los límites de \(x(t)\).
-- Proponer la función localizadora \(h_2=y\).
-- Calcular su derivada de Lie y determinar los límites de \(y(t)\).
-- Proponer la función localizadora \(h_3=z\).
-- Determinar la condición requerida para establecer el límite inferior de \(z(t)\).
-- Construir el dominio conjunto a partir de la intersección de los conjuntos obtenidos.
-
-### 7. Estabilidad asintótica global y condiciones de eliminación
-
-- Proponer la función candidata de Lyapunov \(V=x\).
-- Explicar qué significa que una función sea definida positiva.
-- Explicar qué significa que una función sea radialmente desacotada.
-- Distinguir entre una derivada semidefinida negativa y una definida negativa.
-- Explicar cuándo es necesario utilizar el principio de invariancia de LaSalle.
-- Calcular la derivada temporal de la función candidata.
-- Evaluar la derivada utilizando los límites inferiores de las variables.
-- Despejar la condición sobre \(\rho\) que garantiza la eliminación de células patológicas.
-- Interpretar el equilibrio al que convergen las trayectorias.
+- Selección de la función candidata $V=x$.
+- Cálculo de $\dot V$.
+- Evaluación de la derivada utilizando los límites del sistema.
+- Obtención de la condición de control para la eliminación.
+- Consideración del principio de invariancia de LaSalle.
 
 [Volver al contenido](#contenido)
 
 ---
 
 <a id="resultados"></a>
-## Resultados y condiciones principales
+## Resultados analíticos principales
 
-Las condiciones matemáticas obtenidas en el desarrollo se resumen en la siguiente tabla.
+Las condiciones principales obtenidas en el desarrollo se resumen en la siguiente tabla.
 
 | Análisis | Resultado |
 |---|---|
-| Positividad | El octante no negativo es positivamente invariante |
-| Equilibrio libre de células patológicas \(E_0\) | \(\left(0,0,\frac{\rho}{d_3}\right)\) |
-| Equilibrio libre de células patológicas \(E_1\) | \(\left(0,\frac{1}{b_2},\frac{\rho}{d_3}\right)\) |
-| Valores propios en \(E_1\) | \(\lambda_1=r_1-\frac{a_{12}}{b_2}-\frac{a_{13}\rho}{d_3}\), \(\lambda_2=-r_2\), \(\lambda_3=-d_3\) |
-| Condición de estabilidad local de \(E_1\) | \(\rho>\frac{d_3}{a_{13}}\left(r_1-\frac{a_{12}}{b_2}\right)\) |
-| Condición de eliminación mediante Lyapunov | \(\rho>\frac{r_1d_3}{a_{13}}\) |
-| Equilibrio de convergencia indicado para la eliminación | \(\left(0,\frac{1}{b_2},\frac{\rho}{d_3}\right)\) |
+| Equilibrio libre de células patológicas 1 | $E_0=(0,0,\rho/d_3)$ |
+| Equilibrio libre de células patológicas 2 | $E_1=(0,1/b_2,\rho/d_3)$ |
+| Valores propios en $E_1$ | $\lambda_1=r_1-a_{12}/b_2-a_{13}\rho/d_3$, $\lambda_2=-r_2$, $\lambda_3=-d_3$ |
+| Condición de estabilidad local de $E_1$ | $\rho>(d_3/a_{13})(r_1-a_{12}/b_2)$ |
+| Valores propios en $E_0$ | $\lambda_1=r_1-a_{13}\rho/d_3$, $\lambda_2=r_2$, $\lambda_3=-d_3$ |
+| Estabilidad de $E_0$ | Punto silla, debido a que $\lambda_2>0$ y $\lambda_3<0$ |
+| Cota superior propuesta para $x$ | $x\leq1/b_1$ |
+| Cota superior propuesta para $y$ | $y\leq1/b_2$ |
+| Cota inferior propuesta para $z$ | $z\geq\rho/d_3$ |
+| Condición suficiente de eliminación global | $\rho>r_1d_3/a_{13}$ |
 
-### Comparación de las condiciones de eliminación
-
-El análisis local y el análisis global producen dos condiciones diferentes:
-
-**Condición local:**
-
-\[
-\rho>
-\frac{d_3}{a_{13}}
-\left(
-r_1-\frac{a_{12}}{b_2}
-\right).
-\]
-
-**Condición global mediante Lyapunov:**
-
-\[
-\rho>\frac{r_1d_3}{a_{13}}.
-\]
-
-La primera se obtiene a partir de los valores propios de la matriz Jacobiana evaluada en el equilibrio \(E_1\). La segunda se obtiene mediante la función candidata de Lyapunov y los límites inferiores de las variables de estado.
-
-Por lo tanto, ambas condiciones corresponden a enfoques distintos del análisis de estabilidad y no deben interpretarse como si fueran el mismo criterio.
+La condición de eliminación global es más restrictiva que la condición local de estabilidad de $E_1$ cuando $a_{12}/b_2>0$. Esto es consistente con que una condición global suficiente debe garantizar un resultado sobre un conjunto más amplio de condiciones iniciales que una condición de estabilidad local.
 
 [Volver al contenido](#contenido)
 
 ---
 
-<a id="reproducibilidad"></a>
-## Alcance del material y reproducibilidad
+<a id="alcance"></a>
+## Alcance y consideraciones
 
-El material proporcionado para esta práctica contiene el desarrollo analítico del modelo, el análisis de positividad, el cálculo de los puntos de equilibrio, la matriz Jacobiana, los valores propios, los conjuntos invariantes y el análisis de Lyapunov.
+El material proporcionado desarrolla principalmente el análisis cualitativo del sistema: positividad, equilibrios, estabilidad local, cotas para las variables y una condición de eliminación mediante una función candidata de Lyapunov.
 
-Aunque el título de la actividad es **Caos en Sistemas Biológicos**, el material matemático recibido desarrolla principalmente propiedades de positividad, estabilidad y eliminación de poblaciones. No incluye un análisis específico de caos, como exponentes de Lyapunov, secciones de Poincaré, bifurcaciones o identificación de atractores caóticos. Por ello, el documento conserva el nombre de la práctica, pero no atribuye al modelo resultados de caos que no aparecen en el material.
+Aunque el título de la práctica hace referencia al caos en sistemas biológicos, el desarrollo matemático disponible no incluye pruebas numéricas o gráficas que permitan afirmar la presencia de caos. En particular, no se proporcionan exponentes de Lyapunov, secciones de Poincaré, diagramas de bifurcación ni evidencia de atractores caóticos. Por esta razón, el documento se limita a describir los análisis efectivamente incluidos en el material fuente.
 
-Tampoco se especifican valores numéricos de los parámetros, condiciones iniciales particulares, un conjunto de datos experimentales ni un archivo de implementación computacional. Por esta razón, este documento presenta los resultados analíticos y las condiciones simbólicas disponibles, sin atribuir al sistema simulaciones o resultados numéricos que no fueron proporcionados.
-
-Para complementar el análisis con una implementación computacional sería necesario definir los valores de los parámetros y las condiciones iniciales, y resolver numéricamente el sistema de ecuaciones diferenciales.
-
-### Resultados mínimos que deben identificarse en el desarrollo
-
-- Sistema de tres ecuaciones diferenciales no lineales.
-- Demostración de positividad e invariancia del octante no negativo.
-- Dos puntos de equilibrio con \(x=0\).
-- Matriz Jacobiana del sistema.
-- Valores propios de los equilibrios \(E_0\) y \(E_1\).
-- Condición de estabilidad asintótica local de \(E_1\).
-- Clasificación de \(E_0\) como punto silla.
-- Límites de las variables de estado mediante funciones localizadoras.
-- Función candidata de Lyapunov \(V=x\).
-- Condición global de eliminación \(\rho>\frac{r_1d_3}{a_{13}}\).
-- Equilibrio al que convergen las trayectorias bajo la condición de eliminación indicada.
+Tampoco se proporcionan valores numéricos de los parámetros, condiciones iniciales concretas ni resultados de simulación. En consecuencia, no se agregan gráficas ni resultados computacionales que no estén respaldados por el material de la práctica.
 
 [Volver al contenido](#contenido)
 
@@ -1123,10 +677,10 @@ Para complementar el análisis con una implementación computacional sería nece
 
 [1] P. A. Valle, *Syllabus para Biología de Sistemas y Gemelos Digitales*, Tecnológico Nacional de México / Instituto Tecnológico de Tijuana, Tijuana, B.C., México, 2026. Disponible en: https://biomath.xyz/course/
 
-[2] De Leenheer y Aeyels, trabajo citado en el material de la práctica para el criterio de positividad de sistemas dinámicos. Los datos bibliográficos completos no se especifican en el documento fuente.
+[2] De Leenheer y Aeyels, trabajo citado en el material de la práctica para el análisis de positividad del sistema. La referencia bibliográfica completa no aparece en el documento fuente.
 
 ---
 
 ## Uso académico
 
-Este repositorio se utiliza con fines docentes en la asignatura **Modelado Matemático** de la **Maestría en Ciencias de la Ingeniería**. El desarrollo debe complementarse con la interpretación matemática y biológica de los resultados. La obtención de condiciones de estabilidad y eliminación requiere comprender tanto el comportamiento local alrededor de los puntos de equilibrio como las propiedades globales de las trayectorias del sistema.
+Este documento se utiliza con fines docentes en la asignatura **Modelado Matemático** de la **Maestría en Ciencias de la Ingeniería**. El análisis matemático debe complementarse con la interpretación biológica de las variables, los parámetros y las condiciones de estabilidad. Las condiciones analíticas aquí presentadas no sustituyen la verificación de las hipótesis matemáticas necesarias para demostrar invariancia y convergencia global.
