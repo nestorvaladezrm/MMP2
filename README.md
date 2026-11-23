@@ -102,27 +102,23 @@ $$
 
 Las variables de estado son:
 
-| Variable | Descripción en el modelo |
-|---|---|
-| $x(t)$ | Población de células patológicas cuya eliminación se busca |
-| $y(t)$ | Segunda población celular |
-| $z(t)$ | Tercera población celular, asociada al término de control $\rho$ |
+- `x(t)`: población de células patológicas cuya eliminación se busca.
+- `y(t)`: segunda población celular.
+- `z(t)`: tercera población celular, asociada al término de control `rho`.
 
 Los parámetros del modelo son:
 
-| Parámetro | Función en el sistema |
-|---|---|
-| $r_1$ | Tasa de crecimiento de la población $x$ |
-| $r_2$ | Tasa de crecimiento de la población $y$ |
-| $r_3$ | Coeficiente de interacción de $x$ y $z$ en la ecuación de $z$ |
-| $b_1$ | Coeficiente de saturación o limitación de la población $x$ |
-| $b_2$ | Coeficiente de saturación o limitación de la población $y$ |
-| $a_{12}$ | Coeficiente de interacción entre $x$ y $y$ en la ecuación de $x$ |
-| $a_{13}$ | Coeficiente de interacción entre $x$ y $z$ en la ecuación de $x$ |
-| $a_{21}$ | Coeficiente de interacción entre $x$ y $y$ en la ecuación de $y$ |
-| $a_{31}$ | Coeficiente que modifica la interacción entre $x$ y $z$ |
-| $d_3$ | Tasa de disminución de la población $z$ |
-| $\rho$ | Parámetro de control positivo |
+- `r_1`: tasa de crecimiento de la población `x`.
+- `r_2`: tasa de crecimiento de la población `y`.
+- `r_3`: coeficiente de interacción de `x` y `z` en la ecuación de `z`.
+- `b_1`: coeficiente de saturación o limitación de la población `x`.
+- `b_2`: coeficiente de saturación o limitación de la población `y`.
+- `a_12`: coeficiente de interacción entre `x` y `y` en la ecuación de `x`.
+- `a_13`: coeficiente de interacción entre `x` y `z` en la ecuación de `x`.
+- `a_21`: coeficiente de interacción entre `x` y `y` en la ecuación de `y`.
+- `a_31`: coeficiente que modifica la interacción entre `x` y `z`.
+- `d_3`: tasa de disminución de la población `z`.
+- `rho`: parámetro de control positivo.
 
 [Volver al contenido](#contenido)
 
@@ -638,22 +634,62 @@ El desarrollo proporcionado para esta práctica se organiza alrededor de los sig
 <a id="resultados"></a>
 ## Resultados analíticos principales
 
-Las condiciones principales obtenidas en el desarrollo se resumen en la siguiente tabla.
+Las condiciones principales obtenidas en el desarrollo se resumen a continuación.
 
-| Análisis | Resultado |
-|---|---|
-| Equilibrio libre de células patológicas 1 | $E_0=(0,0,\rho/d_3)$ |
-| Equilibrio libre de células patológicas 2 | $E_1=(0,1/b_2,\rho/d_3)$ |
-| Valores propios en $E_1$ | $\lambda_1=r_1-a_{12}/b_2-a_{13}\rho/d_3$, $\lambda_2=-r_2$, $\lambda_3=-d_3$ |
-| Condición de estabilidad local de $E_1$ | $\rho>(d_3/a_{13})(r_1-a_{12}/b_2)$ |
-| Valores propios en $E_0$ | $\lambda_1=r_1-a_{13}\rho/d_3$, $\lambda_2=r_2$, $\lambda_3=-d_3$ |
-| Estabilidad de $E_0$ | Punto silla, debido a que $\lambda_2>0$ y $\lambda_3<0$ |
-| Cota superior propuesta para $x$ | $x\leq1/b_1$ |
-| Cota superior propuesta para $y$ | $y\leq1/b_2$ |
-| Cota inferior propuesta para $z$ | $z\geq\rho/d_3$ |
-| Condición suficiente de eliminación global | $\rho>r_1d_3/a_{13}$ |
+**Equilibrios libres de células patológicas**
 
-La condición de eliminación global es más restrictiva que la condición local de estabilidad de $E_1$ cuando $a_{12}/b_2>0$. Esto es consistente con que una condición global suficiente debe garantizar un resultado sobre un conjunto más amplio de condiciones iniciales que una condición de estabilidad local.
+$$
+E_0=\\left(0,0,\\frac{\\rho}{d_3}\\right),
+\\qquad
+E_1=\\left(0,\\frac{1}{b_2},\\frac{\\rho}{d_3}\\right).
+$$
+
+**Valores propios en el equilibrio `E_1`**
+
+$$
+\\lambda_1=r_1-\\frac{a_{12}}{b_2}-\\frac{a_{13}\\rho}{d_3},
+\\qquad
+\\lambda_2=-r_2,
+\\qquad
+\\lambda_3=-d_3.
+$$
+
+**Condición de estabilidad local de `E_1`**
+
+$$
+\\rho>\\frac{d_3}{a_{13}}
+\\left(r_1-\\frac{a_{12}}{b_2}\\right).
+$$
+
+**Valores propios en el equilibrio `E_0`**
+
+$$
+\\lambda_1=r_1-\\frac{a_{13}\\rho}{d_3},
+\\qquad
+\\lambda_2=r_2,
+\\qquad
+\\lambda_3=-d_3.
+$$
+
+El equilibrio `E_0` es un punto silla, debido a que `lambda_2` es positivo y `lambda_3` es negativo.
+
+**Cotas propuestas para las variables**
+
+$$
+0\\leq x(t)\\leq\\frac{1}{b_1},
+\\qquad
+0\\leq y(t)\\leq\\frac{1}{b_2},
+\\qquad
+z(t)\\geq\\frac{\\rho}{d_3}.
+$$
+
+**Condición suficiente de eliminación global propuesta**
+
+$$
+\\rho>\\frac{r_1d_3}{a_{13}}.
+$$
+
+La condición de eliminación global es más restrictiva que la condición local de estabilidad de `E_1` cuando `a_12/b_2` es positivo. Esto es consistente con que una condición global suficiente debe garantizar un resultado sobre un conjunto más amplio de condiciones iniciales que una condición de estabilidad local.
 
 [Volver al contenido](#contenido)
 
