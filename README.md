@@ -556,4 +556,69 @@ Las condiciones principales obtenidas en el desarrollo se resumen a continuació
 **Equilibrios libres de células patológicas**
 
 ```math
-E_0=\left(0,0,\frac{\rho}{d_3}\right), \qquad E_1=\left(0,\frac{1}{b_2},\frac{\rho}{d_
+E_0=\left(0,0,\frac{\rho}{d_3}\right), \qquad E_1=\left(0,\frac{1}{b_2},\frac{\rho}{d_3}\right).
+```
+
+**Valores propios en el equilibrio `E_1`**
+
+```math
+\lambda_1=r_1-\frac{a_{12}}{b_2}-\frac{a_{13}\rho}{d_3}, \qquad \lambda_2=-r_2, \qquad \lambda_3=-d_3.
+```
+
+**Condición de estabilidad local de `E_1`**
+
+```math
+\rho>\frac{d_3}{a_{13}}\left(r_1-\frac{a_{12}}{b_2}\right).
+```
+
+**Valores propios en el equilibrio `E_0`**
+
+```math
+\lambda_1=r_1-\frac{a_{13}\rho}{d_3}, \qquad \lambda_2=r_2, \qquad \lambda_3=-d_3.
+```
+
+El equilibrio `E_0` es un punto silla, debido a que `lambda_2` es positivo y `lambda_3` es negativo.
+
+**Cotas propuestas para las variables**
+
+```math
+0\leq x(t)\leq\frac{1}{b_1}, \qquad 0\leq y(t)\leq\frac{1}{b_2}, \qquad z(t)\geq\frac{\rho}{d_3}.
+```
+
+**Condición suficiente de eliminación global propuesta**
+
+```math
+\rho>\frac{r_1d_3}{a_{13}}.
+```
+
+La condición de eliminación global es más restrictiva que la condición local de estabilidad de `E_1` cuando `a_12/b_2` es positivo. Esto es consistente con que una condición global suficiente debe garantizar un resultado sobre un conjunto más amplio de condiciones iniciales que una condición de estabilidad local.
+
+[Volver al contenido](#contenido)
+
+---
+
+<a id="alcance"></a>
+## Alcance y consideraciones
+
+El material proporcionado desarrolla principalmente el análisis cualitativo del sistema: positividad, equilibrios, estabilidad local, cotas para las variables y una condición de eliminación mediante una función candidata de Lyapunov.
+
+Aunque el título de la práctica hace referencia al caos en sistemas biológicos, el desarrollo matemático disponible no incluye pruebas numéricas o gráficas que permitan afirmar la presencia de caos. En particular, no se proporcionan exponentes de Lyapunov, secciones de Poincaré, diagramas de bifurcación ni evidencia de atractores caóticos. Por esta razón, el documento se limita a describir los análisis efectivamente incluidos en el material fuente.
+
+Tampoco se proporcionan valores numéricos de los parámetros, condiciones iniciales concretas ni resultados de simulación. En consecuencia, no se agregan gráficas ni resultados computacionales que no estén respaldados por el material de la práctica.
+
+[Volver al contenido](#contenido)
+
+---
+
+<a id="referencias"></a>
+## Referencias
+
+[1] P. A. Valle, *Syllabus para Biología de Sistemas y Gemelos Digitales*, Tecnológico Nacional de México / Instituto Tecnológico de Tijuana, Tijuana, B.C., México, 2026. Disponible en: https://biomath.xyz/course/
+
+[2] De Leenheer y Aeyels, trabajo citado en el material de la práctica para el análisis de positividad del sistema. La referencia bibliográfica completa no aparece en el documento fuente.
+
+---
+
+## Uso académico
+
+Este documento se utiliza con fines docentes en la asignatura **Modelado Matemático** de la **Maestría en Ciencias de la Ingeniería**. El análisis matemático debe complementarse con la interpretación biológica de las variables, los parámetros y las condiciones de estabilidad. Las condiciones analíticas aquí presentadas no sustituyen la verificación de las hipótesis matemáticas necesarias para demostrar invariancia y convergencia global.
